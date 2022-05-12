@@ -37,6 +37,7 @@ const PaymethodSchema = {
 
 class Paymethod extends Model {
   static associate(models) {
+    this.belongsTo(models.Account, {as: 'account'});
 
   }
 

@@ -28,6 +28,19 @@ router.get('/:id',
   }
 );
 
+router.get('/customer/:id',
+  validatorHandler(getOrderSchema, 'params'),
+  async (req, res, next) => {
+    try {
+      const { id } = req.params;
+      const order = await service.findByCustomer(id);
+      res.json(order);
+    } catch (error) {
+      next(error);
+    }
+  }
+);
+
 router.post('/',
   validatorHandler(createOrderSchema, 'body'),
   async (req, res, next) => {

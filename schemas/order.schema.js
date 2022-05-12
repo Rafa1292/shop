@@ -8,6 +8,7 @@ const quantity = Joi.number().integer().min(1);
 const unitPrice = Joi.number();
 const expiringDate = Joi.date();
 const credit = Joi.bool();
+const close = Joi.bool();
 const soldBy = Joi.string();
 
 const createOrderSchema = Joi.object({
@@ -15,6 +16,12 @@ const createOrderSchema = Joi.object({
   expiringDate: expiringDate.required(),
   credit: credit.required(),
   soldBy: soldBy.required(),
+  close: close.required(),
+  items: Joi.array().items(Joi.object({
+    productId: Joi.number().integer().required(),
+    quantity : Joi.number().integer().required(),
+    unitPrice : Joi.number().integer().required()
+    }))
 });
 
 const getOrderSchema = Joi.object({

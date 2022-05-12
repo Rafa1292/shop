@@ -34,11 +34,17 @@ const AccountHistorySchema = {
     type: DataTypes.DATE,
     field: 'created_at',
     defaultValue: Sequelize.NOW
-  },
+  }
 }
 
 class AccountHistory extends Model {
   static associate(models) {
+    this.hasOne(models.PaymentAccountHistory, {
+      as: 'paymentAccountHistory',
+      foreignKey: 'accountHistoryId'
+    });
+    this.belongsTo(models.Paymethod, {as: 'paymethod'});
+
   }
 
   static config(sequelize) {

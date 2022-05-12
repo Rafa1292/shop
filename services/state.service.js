@@ -6,6 +6,17 @@ class StateService {
   constructor() {
   }
 
+  async create(data) {
+    const newState = await models.State.create(data);
+    return newState;
+  }
+
+  async update(id, changes) {
+    const state = await this.findOne(id);
+    const rta = state.update(changes);
+    return rta;
+  }
+
   async find() {
     const rta = await models.State.findAll();
     return rta;

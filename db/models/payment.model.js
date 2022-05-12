@@ -31,12 +31,12 @@ const PaymentSchema = {
 
 class Payment extends Model {
   static associate(models) {
-    this.belongsToMany(models.AccountHistory, {
-      as: 'accountHistories',
-      through: models.PaymentAccountHistory,
-      foreignKey: 'paymentId',
-      otherKey: 'accountHistoryId'
-    });
+    this.hasOne(models.PaymentAccountHistory,
+      {
+        as: 'paymentAccountHistory',
+        foreignKey: 'paymentId'
+      }
+    );
   }
 
   static config(sequelize) {

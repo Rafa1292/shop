@@ -13,7 +13,12 @@ class ProductsService {
 
   async find(query) {
     const options = {
-      include: ['subcategory', 'brand'],
+      include: [{
+        association: 'subcategory',
+        include: ['category']
+      },
+       'brand'
+      ],
       where: {}
     }
     const { limit, offset, price_min, price_max } = query;
@@ -33,7 +38,9 @@ class ProductsService {
   }
 
   async findOne(id) {
-    const product = await models.Product.findByPk(id);
+    const product = await models.Product.findByPk(id, {
+      include: 'subcategory'
+    });
     if (!product) {
       throw boom.notFound('user not found');
     }

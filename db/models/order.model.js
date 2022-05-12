@@ -40,6 +40,9 @@ const OrderSchema = {
     allowNull: false,
     field: 'sold_by',
     type: DataTypes.INTEGER
+  },
+  close: {
+    type: DataTypes.BOOLEAN
   }
 }
 
@@ -48,21 +51,13 @@ class Order extends Model {
     this.belongsTo(models.Customer,
       { as: 'customer' }
     );
-    this.belongsToMany(models.Product, {
+    this.hasMany(models.OrderProduct, {
       as: 'items',
-      through: models.OrderProduct,
-      foreignKey: 'orderId',
-      otherKey: 'productId'
+      foreignKey: 'orderId'
     });
     this.hasMany(models.Payment, {
       as: 'payments',
       foreignKey: 'orderId'
-    });
-    this.belongsToMany(models.State, {
-      as: 'states',
-      through: models.OrderState,
-      foreignKey: 'orderId',
-      otherKey: 'stateId'
     });
   }
 

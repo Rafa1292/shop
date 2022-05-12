@@ -11,7 +11,9 @@ class PaymethodService {
   }
 
   async find() {
-    const rta = await models.Paymethod.findAll();
+    const rta = await models.Paymethod.findAll({
+      include: ['account']
+    });
     return rta;
   }
 

@@ -1,12 +1,20 @@
 const boom = require('@hapi/boom');
 const { models } = require('./../libs/sequelize');
+const CustomerService = require('../services/customer.service')
+const customerService = new CustomerService();
 
 class OrderService {
 
-  constructor(){
+  constructor() {
   }
   async create(data) {
-    const newOrder = await models.Order.create(data);
+    const response = await customerService.customerCanOrder(data.customerId);
+    if (!response) {
+      throw boom.conflict("Has alcanzado el maximo de ordenes abiertas");
+    }
+    const newOrder = await models.Order.create(data, {
+      include: ['items']
+    });
     return newOrder;
   }
 
@@ -22,7 +30,17 @@ class OrderService {
 
   async find() {
     const rta = await models.Order.findAll();
-    return rta;  }
+    return rta;
+  }
+
+  async findByCustomer(customerId) {
+    const rta = await models.Order.findAll({
+      where: {
+        customerId: customerId
+      }
+    });
+    return rta;
+  }
 
   async findOne(id) {
     const order = await models.Order.findByPk(id, {
@@ -31,13 +49,32 @@ class OrderService {
           association: 'customer',
           include: ['user']
         },
-        'items'
+        {
+          association: 'items',
+          include: ['product']
+        },
+        {
+          association: 'payments',
+          include: [
+            {
+              association: 'paymentAccountHistory',
+              include: [{
+                association: 'accountHistory',
+                include: [{
+                  association: 'paymethod'
+                }]
+              }]
+            }
+          ]
+        },
       ],
     });
     if (!order) {
       throw boom.notFound('user not found');
     }
-    return order;  }
+
+    return order;
+  }
 
   async update(id, changes) {
     const order = await this.findOne(id);
@@ -48,7 +85,8 @@ class OrderService {
   async delete(id) {
     const order = await this.findOne(id);
     await order.destroy();
-    return { id };  }
+    return { id };
+  }
 
 }
 

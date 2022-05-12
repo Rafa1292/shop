@@ -18,7 +18,6 @@ const { State, StateSchema } = require('./state.model');
 const { OrderState, OrderStateSchema } = require('./order-state.model');
 
 function SetUpModels(sequelize) {
-  AccountHistory.init(AccountHistorySchema, AccountHistory.config(sequelize));
   Account.init(AccountSchema, Account.config(sequelize));
   Brand.init(BrandSchema, Brand.config(sequelize));
   Category.init(CategorySchema, Category.config(sequelize));
@@ -36,6 +35,7 @@ function SetUpModels(sequelize) {
   User.init(UserSchema, User.config(sequelize));
   State.init(StateSchema, State.config(sequelize));
   OrderState.init(OrderStateSchema, OrderState.config(sequelize));
+  AccountHistory.init(AccountHistorySchema, AccountHistory.config(sequelize));
 
   AccountHistory.associate(sequelize.models);
   Account.associate(sequelize.models);
@@ -46,6 +46,7 @@ function SetUpModels(sequelize) {
   OrderProduct.associate(sequelize.models);
   Order.associate(sequelize.models);
   Payment.associate(sequelize.models);
+  PaymentAccountHistory.associate(sequelize.models);
   ProductSize.associate(sequelize.models);
   Product.associate(sequelize.models);
   Size.associate(sequelize.models);

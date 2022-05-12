@@ -19,7 +19,14 @@ class CustomerService {
   }
 
   async findOne(id) {
-    const customer = await models.Customer.findByPk(id);
+    const customer = await models.Customer.findByPk(id, {
+      include: [
+        {
+          association: 'orders',
+          include: ['items']
+        }
+      ]
+    });
     if (!customer) {
       throw boom.notFound('user not found');
     }
@@ -37,6 +44,23 @@ class CustomerService {
     await customer.destroy();
     return { id };
   }
+
+  async customerCanOrder(customerId) {
+    let response = false;
+    const customer = await this.findOne(customerId);
+    if (customer) {
+      const openOrders = customer.orders.filter(order => !order.close);
+      response = openOrders.length < customer.maxOrders;
+    }
+    return response;
+
+  }
 }
 
 module.exports = CustomerService;
+
+
+
+
+
+

@@ -2,8 +2,8 @@ version: "3.8"
 
 services:
   postgres:
-    image: postgres:latest
     restart: always
+    image: postgres:latest
     container_name: my_container_db
     environment:
       POSTGRES_DB: my_store
@@ -12,7 +12,7 @@ services:
     ports:
       - 5432:5432
     volumes:
-      - /postgres_data:/var/lib/postgresql/data
+      - ./postgres_data:/var/lib/postgresql/data
 
   pgadmin:
     image: dpage/pgadmin4

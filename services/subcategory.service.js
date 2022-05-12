@@ -11,7 +11,9 @@ class SubcategoryService {
   }
 
   async find() {
-    const rta = await models.Subcategory.findAll();
+    const rta = await models.Subcategory.findAll({
+      include: ['category']
+    });
     return rta;
   }
 

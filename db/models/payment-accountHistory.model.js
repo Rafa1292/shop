@@ -49,6 +49,8 @@ const PaymentAccountHistorySchema = {
 
 class PaymentAccountHistory extends Model {
   static associate(models) {
+    this.belongsTo(models.AccountHistory, {as: 'accountHistory'});
+
   }
 
   static config(sequelize) {

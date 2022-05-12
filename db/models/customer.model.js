@@ -18,6 +18,11 @@ const CustomerSchema = {
     allowNull: false,
     type: DataTypes.STRING,
   },
+  maxOrders: {
+    field: 'max_orders',
+    allowNull: false,
+    type: DataTypes.INTEGER,
+  },
   createdAt: {
     allowNull: false,
     type: DataTypes.DATE,
