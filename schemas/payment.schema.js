@@ -7,12 +7,12 @@ const amount = Joi.number().integer();
 
 const createPaymentSchema = Joi.object({
   orderId: orderId.required(),
-  accountHistories: Joi.array().items(Joi.object({
-    amount: amount.required(),
-    paymethodId : Joi.number().integer().required(),
-    debit : Joi.bool().required(),
-    PaymentAccountHistory: createPaymentAccountHistorySchema
-    }))
+  PaymentAccountHistory: createPaymentAccountHistorySchema,
+  // accountHistories: Joi.array().items(Joi.object({
+  //   amount: amount.required(),
+  //   paymethodId : Joi.number().integer().required(),
+  //   debit : Joi.bool().required(),
+  //   }))
 });
 
 const getPaymentSchema = Joi.object({

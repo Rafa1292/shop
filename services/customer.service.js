@@ -18,14 +18,36 @@ class CustomerService {
     return rta;
   }
 
-  async findOne(id) {
+  async findOneWithOrders(id) {
     const customer = await models.Customer.findByPk(id, {
       include: [
         {
           association: 'orders',
-          include: ['items']
+          include: [
+            {
+              association: 'items',
+              include: ['product']
+            },
+            {
+              association: 'payments',
+              include: ['paymentAccountHistory']
+            }
+          ],
+          where:{
+            close: false
+          }
         }
       ]
+    });
+    if (!customer) {
+      throw boom.notFound('user not found');
+    }
+    return customer;
+  }
+
+  async findOne(id) {
+    const customer = await models.Customer.findByPk(id,{
+      include: ['orders']
     });
     if (!customer) {
       throw boom.notFound('user not found');

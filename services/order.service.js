@@ -18,6 +18,16 @@ class OrderService {
     return newOrder;
   }
 
+  async checkBalance(id){
+    let order = await this.findOne(id);
+    const total = order.items.map(item => (item.unitPrice * item.quantity)).reduce((prev, curr) => prev + curr, 0);
+    const payments = order.payments.map(payment => payment.paymentAccountHistory.amount).reduce((prev, curr) => prev + curr, 0);
+
+    if(payments >= total){
+      this.update(id, {close: true});
+    }
+  }
+
   async addItem(data) {
     const newItem = await models.OrderProduct.create(data);
     return newItem;
