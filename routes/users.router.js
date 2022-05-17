@@ -1,5 +1,6 @@
 const express = require('express');
-
+const passport = require('passport');
+const { checkRoles } = require('./../middlewares/auth.handler');
 const UserService = require('./../services/user.service');
 const validatorHandler = require('./../middlewares/validator.handler');
 const { updateUserSchema, createUserSchema, getUserSchema } = require('./../schemas/user.schema');
@@ -7,7 +8,9 @@ const { updateUserSchema, createUserSchema, getUserSchema } = require('./../sche
 const router = express.Router();
 const service = new UserService();
 
-router.get('/', async (req, res, next) => {
+router.get('/',
+passport.authenticate('jwt', { session: false }),
+checkRoles('admin'), async (req, res, next) => {
   try {
     const categories = await service.find();
     res.json(categories);
@@ -17,6 +20,8 @@ router.get('/', async (req, res, next) => {
 });
 
 router.get('/:id',
+passport.authenticate('jwt', { session: false }),
+checkRoles('admin'),
   validatorHandler(getUserSchema, 'params'),
   async (req, res, next) => {
     try {
@@ -58,6 +63,8 @@ router.patch('/:id',
 );
 
 router.delete('/:id',
+passport.authenticate('jwt', { session: false }),
+checkRoles('admin'),
   validatorHandler(getUserSchema, 'params'),
   async (req, res, next) => {
     try {

@@ -1,5 +1,6 @@
 const express = require('express');
-
+const passport = require('passport');
+const { checkRoles } = require('./../middlewares/auth.handler');
 const PaymentService = require('./../services/payment.service');
 const validatorHandler = require('./../middlewares/validator.handler');
 const { getPaymentSchema, createPaymentSchema } = require('./../schemas/payment.schema');
@@ -7,16 +8,20 @@ const { getPaymentSchema, createPaymentSchema } = require('./../schemas/payment.
 const router = express.Router();
 const service = new PaymentService();
 
-router.get('/', async (req, res, next) => {
-  try {
-    const payments = await service.find();
-    res.json(payments);
-  } catch (error) {
-    next(error);
-  }
-});
+router.get('/',
+  passport.authenticate('jwt', { session: false }),
+  checkRoles('admin'), async (req, res, next) => {
+    try {
+      const payments = await service.find();
+      res.json(payments);
+    } catch (error) {
+      next(error);
+    }
+  });
 
 router.get('/:id',
+  passport.authenticate('jwt', { session: false }),
+  checkRoles('admin'),
   validatorHandler(getPaymentSchema, 'params'),
   async (req, res, next) => {
     try {
@@ -30,6 +35,8 @@ router.get('/:id',
 );
 
 router.post('/',
+  passport.authenticate('jwt', { session: false }),
+  checkRoles('admin'),
   validatorHandler(createPaymentSchema, 'body'),
   async (req, res, next) => {
     try {

@@ -13,6 +13,7 @@ const sizeRouter = require('./size.router');
 const subcategoryRouter = require('./subcategory.router');
 const usersRouter = require('./users.router');
 const stateRouter = require('./state.router');
+const authRouter = require('./auth.router');
 
 function routerApi(app) {
   const router = express.Router();
@@ -30,6 +31,7 @@ function routerApi(app) {
   router.use('/subcategories', subcategoryRouter);
   router.use('/users', usersRouter);
   router.use('/states', stateRouter);
+  router.use('/auth', authRouter);
 }
 
 module.exports = routerApi;

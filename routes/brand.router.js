@@ -1,5 +1,6 @@
 const express = require('express');
-
+const passport = require('passport');
+const { checkRoles } = require('./../middlewares/auth.handler');
 const BrandService = require('./../services/brand.service');
 const validatorHandler = require('./../middlewares/validator.handler');
 const { createBrandSchema, updateBrandSchema, getBrandSchema } = require('./../schemas/brand.schema');
@@ -7,7 +8,9 @@ const { createBrandSchema, updateBrandSchema, getBrandSchema } = require('./../s
 const router = express.Router();
 const service = new BrandService();
 
-router.get('/', async (req, res, next) => {
+router.get('/',
+passport.authenticate('jwt', { session: false }),
+checkRoles('admin'),  async (req, res, next) => {
   try {
     const brands = await service.find();
     res.json(brands);
@@ -17,6 +20,8 @@ router.get('/', async (req, res, next) => {
 });
 
 router.get('/:id',
+passport.authenticate('jwt', { session: false }),
+checkRoles('admin'),
   validatorHandler(getBrandSchema, 'params'),
   async (req, res, next) => {
     try {
@@ -30,6 +35,8 @@ router.get('/:id',
 );
 
 router.post('/',
+passport.authenticate('jwt', { session: false }),
+checkRoles('admin'),
   validatorHandler(createBrandSchema, 'body'),
   async (req, res, next) => {
     try {
@@ -43,6 +50,8 @@ router.post('/',
 );
 
 router.patch('/:id',
+passport.authenticate('jwt', { session: false }),
+checkRoles('admin'),
   validatorHandler(getBrandSchema, 'params'),
   validatorHandler(updateBrandSchema, 'body'),
   async (req, res, next) => {
@@ -58,6 +67,8 @@ router.patch('/:id',
 );
 
 router.delete('/:id',
+passport.authenticate('jwt', { session: false }),
+checkRoles('admin'),
   validatorHandler(getBrandSchema, 'params'),
   async (req, res, next) => {
     try {

@@ -1,5 +1,6 @@
 const express = require('express');
-
+const passport = require('passport');
+const { checkRoles } = require('./../middlewares/auth.handler');
 const SizeService = require('./../services/size.service');
 const validatorHandler = require('./../middlewares/validator.handler');
 const { createSizeSchema, updateSizeSchema, getSizeSchema } = require('./../schemas/size.schema');
@@ -7,16 +8,21 @@ const { createSizeSchema, updateSizeSchema, getSizeSchema } = require('./../sche
 const router = express.Router();
 const service = new SizeService();
 
-router.get('/', async (req, res, next) => {
-  try {
-    const sizes = await service.find();
-    res.json(sizes);
-  } catch (error) {
-    next(error);
-  }
-});
+router.get('/',
+  passport.authenticate('jwt', { session: false }),
+  checkRoles('admin'),
+  async (req, res, next) => {
+    try {
+      const sizes = await service.find();
+      res.json(sizes);
+    } catch (error) {
+      next(error);
+    }
+  });
 
 router.get('/:id',
+  passport.authenticate('jwt', { session: false }),
+  checkRoles('admin'),
   validatorHandler(getSizeSchema, 'params'),
   async (req, res, next) => {
     try {
@@ -30,6 +36,8 @@ router.get('/:id',
 );
 
 router.post('/',
+  passport.authenticate('jwt', { session: false }),
+  checkRoles('admin'),
   validatorHandler(createSizeSchema, 'body'),
   async (req, res, next) => {
     try {
@@ -43,6 +51,8 @@ router.post('/',
 );
 
 router.patch('/:id',
+  passport.authenticate('jwt', { session: false }),
+  checkRoles('admin'),
   validatorHandler(getSizeSchema, 'params'),
   validatorHandler(updateSizeSchema, 'body'),
   async (req, res, next) => {
@@ -58,12 +68,14 @@ router.patch('/:id',
 );
 
 router.delete('/:id',
+  passport.authenticate('jwt', { session: false }),
+  checkRoles('admin'),
   validatorHandler(getSizeSchema, 'params'),
   async (req, res, next) => {
     try {
       const { id } = req.params;
       await service.delete(id);
-      res.status(201).json({id});
+      res.status(201).json({ id });
     } catch (error) {
       next(error);
     }
