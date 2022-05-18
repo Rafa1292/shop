@@ -9,6 +9,12 @@ const UserSchema = {
     primaryKey: true,
     type: DataTypes.INTEGER
   },
+  facebookId: {
+    type: DataTypes.INTEGER
+  },
+  googleId: {
+    type: DataTypes.INTEGER
+  },
   email: {
     allowNull: false,
     type: DataTypes.STRING,

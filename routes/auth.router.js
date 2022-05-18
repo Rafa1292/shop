@@ -25,6 +25,33 @@ router.post('/login',
   }
 );
 
+router.get("/login/success", (req, res) => {
+  res.status(200).json({
+    success: true,
+    message: 'succesfull',
+    user: req.user
+  })
+});
 
+router.get('/facebook',
+passport.authenticate('facebook',{ scope : ['email'] }));
+
+router.get('/facebook/callback',
+passport.authenticate('facebook', { failureRedirect: 'http://localhost:8080/login' }),
+function(req,res){
+  res.cookie('token', req.user)
+  res.redirect('http://localhost:8080/')
+});
+
+router.get('/google',
+passport.authenticate('google',{ scope : ['email'] }));
+
+router.get('/google/callback',
+passport.authenticate('google', { failureRedirect: 'http://localhost:8080/login', session: false }),
+function(req,res){
+  console.log(req.user)
+  res.cookie('token', req.user)
+  res.redirect('http://localhost:8080/')
+});
 
 module.exports = router;

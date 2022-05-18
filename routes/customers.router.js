@@ -8,9 +8,7 @@ const { updateCustomerSchema, createCustomerSchema, getCustomerSchema } = requir
 const router = express.Router();
 const service = new CustomerService();
 
-router.get('/',
-  passport.authenticate('jwt', { session: false }),
-  checkRoles('admin'), async (req, res, next) => {
+router.get('/',async (req, res, next) => {
     try {
       const customers = await service.find();
       res.json(customers);

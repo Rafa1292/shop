@@ -9,19 +9,35 @@ const router = express.Router();
 const service = new UserService();
 
 router.get('/',
-passport.authenticate('jwt', { session: false }),
-checkRoles('admin'), async (req, res, next) => {
-  try {
-    const categories = await service.find();
-    res.json(categories);
-  } catch (error) {
-    next(error);
-  }
-});
+  passport.authenticate('jwt', { session: false }),
+  checkRoles('admin'), async (req, res, next) => {
+    try {
+      const users = await service.find();
+      res.json(users);
+    } catch (error) {
+      next(error);
+    }
+  });
+
+  router.get('/get-role',
+    passport.authenticate('jwt', { session: false }),
+    async (req, res, next) => {
+      try {
+        const user = await service.findOne(req.user.sub);
+        res.json({
+          role: user.role,
+          sub: user.id,
+          user: user.email,
+          customerId: user.customer ? user.customer.id : 0
+        });
+      } catch (error) {
+        next(error);
+      }
+    });
 
 router.get('/:id',
-passport.authenticate('jwt', { session: false }),
-checkRoles('admin'),
+  passport.authenticate('jwt', { session: false }),
+  checkRoles('admin'),
   validatorHandler(getUserSchema, 'params'),
   async (req, res, next) => {
     try {
@@ -33,6 +49,8 @@ checkRoles('admin'),
     }
   }
 );
+
+
 
 router.post('/',
   validatorHandler(createUserSchema, 'body'),
@@ -63,14 +81,14 @@ router.patch('/:id',
 );
 
 router.delete('/:id',
-passport.authenticate('jwt', { session: false }),
-checkRoles('admin'),
+  passport.authenticate('jwt', { session: false }),
+  checkRoles('admin'),
   validatorHandler(getUserSchema, 'params'),
   async (req, res, next) => {
     try {
       const { id } = req.params;
       await service.delete(id);
-      res.status(201).json({id});
+      res.status(201).json({ id });
     } catch (error) {
       next(error);
     }
