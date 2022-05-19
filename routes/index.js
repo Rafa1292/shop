@@ -15,6 +15,7 @@ const usersRouter = require('./users.router');
 const stateRouter = require('./state.router');
 const authRouter = require('./auth.router');
 const entryRouter = require('./entry.router');
+const costRouter = require('./cost.router');
 
 function routerApi(app) {
   const router = express.Router();
@@ -34,6 +35,7 @@ function routerApi(app) {
   router.use('/states', stateRouter);
   router.use('/auth', authRouter);
   router.use('/entry', entryRouter);
+  router.use('/cost', costRouter);
 }
 
 module.exports = routerApi;
