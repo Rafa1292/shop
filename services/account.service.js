@@ -15,6 +15,25 @@ class AccountService {
     return rta;
   }
 
+  async getBalance(paymethodId) {
+    const paymethod = await models.Paymethod.findByPk(paymethodId);
+
+    let rta = await models.AccountHistory.findAll({
+      include: [{
+        association: 'paymethod',
+        where: {
+          accountId : paymethod.accountId
+        }
+      }]
+    });
+    if(rta.length == 0){
+      return 0;
+    }
+
+    let rtaSort = rta.sort((a,b) => b.createdAt - a.createdAt)
+    return rtaSort[0].newBalance;
+  }
+
   async findOne(id) {
     const account = await models.Account.findByPk(id);
     if (!account) {

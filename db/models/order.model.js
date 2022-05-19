@@ -36,6 +36,11 @@ const OrderSchema = {
     allowNull: false,
     type: DataTypes.BOOLEAN
   },
+  firstPay: {
+    allowNull: true,
+    field: 'first_pay',
+    type: DataTypes.INTEGER
+  },
   soldBy: {
     allowNull: false,
     field: 'sold_by',

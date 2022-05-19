@@ -10,7 +10,15 @@ const AccountHistorySchema = {
     primaryKey: true,
     type: DataTypes.INTEGER
   },
+  previousBalance: {
+    allowNull: false,
+    type: DataTypes.INTEGER,
+  },
   amount: {
+    allowNull: false,
+    type: DataTypes.INTEGER,
+  },
+  newBalance: {
     allowNull: false,
     type: DataTypes.INTEGER,
   },

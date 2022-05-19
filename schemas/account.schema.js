@@ -1,10 +1,12 @@
 const Joi = require('joi');
 
 const id = Joi.number().integer();
+const userId = Joi.number().integer();
 const name = Joi.string().min(3).max(15);
 
 const createAccountSchema = Joi.object({
   name: name.required(),
+  userId: userId.required(),
 });
 
 const updateAccountSchema = Joi.object({

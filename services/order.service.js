@@ -22,8 +22,11 @@ class OrderService {
     let order = await this.findOne(id);
     const total = order.items.map(item => (item.unitPrice * item.quantity)).reduce((prev, curr) => prev + curr, 0);
     const payments = order.payments.map(payment => payment.paymentAccountHistory.amount).reduce((prev, curr) => prev + curr, 0);
+    if(payments > total){
+      throw boom.badData('El pago no puede ser mayor al saldo');
+    }
 
-    if(payments >= total){
+    if(payments == total){
       this.update(id, {close: true});
     }
   }

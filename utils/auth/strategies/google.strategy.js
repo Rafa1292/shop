@@ -3,7 +3,7 @@ const UserService = require('../../../services/user.service');
 const boom = require('@hapi/boom');
 const passport = require('passport');
 const jwt = require('jsonwebtoken');
-const {config} = require('../../../config/config')
+const { config } = require('../../../config/config')
 
 const userService = new UserService();
 
@@ -11,15 +11,16 @@ const GoogleStrategyAuth = new GoogleStrategy({
   clientID: '896786655761-44p5urae0bvtm54ssv7tq2a5l0mekj7g.apps.googleusercontent.com',
   clientSecret: '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',
   callbackURL: 'http://localhost:3000/api/v1/auth/google/callback',
+  profileFields: ['id', 'displayName', 'emails', 'picture',],
 },
   async (accessToken, refreshToken, profile, done) => {
-    console.log(profile)
     let user = await userService.findByEmail(profile._json.email);
     if (!user) {
       user = userService.create({
         email: profile._json.email,
-        password: profile.id,
         role: 'customer',
+        googleId: profile.id.toString(),
+        password: profile.id,
         customer: {
           name: profile.displayName,
           phone: '00000000',
@@ -27,6 +28,12 @@ const GoogleStrategyAuth = new GoogleStrategy({
         }
       });
     }
+    else {
+      if (user.googleId != profile.id.toString()) {
+        await userService.update(user.id, { googleId: profile.id.toString() })
+      }
+    }
+
     const payload = {
       sub: user.id,
       role: user.role

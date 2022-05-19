@@ -16,9 +16,11 @@ const { Subcategory, SubcategorySchema } = require('./subcategory.model');
 const { User, UserSchema } = require('./user.model');
 const { State, StateSchema } = require('./state.model');
 const { OrderState, OrderStateSchema } = require('./order-state.model');
+const { Entry, EntrySchema } = require('./entry.model');
 
 function SetUpModels(sequelize) {
   Account.init(AccountSchema, Account.config(sequelize));
+  Entry.init(EntrySchema, Entry.config(sequelize));
   Brand.init(BrandSchema, Brand.config(sequelize));
   Category.init(CategorySchema, Category.config(sequelize));
   Color.init(ColorSchema, Color.config(sequelize));
@@ -38,6 +40,7 @@ function SetUpModels(sequelize) {
   AccountHistory.init(AccountHistorySchema, AccountHistory.config(sequelize));
 
   AccountHistory.associate(sequelize.models);
+  Entry.associate(sequelize.models);
   Account.associate(sequelize.models);
   Brand.associate(sequelize.models);
   Category.associate(sequelize.models);

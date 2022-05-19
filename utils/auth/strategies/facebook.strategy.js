@@ -18,14 +18,17 @@ const FacebookStrategyAuth = new FacebookStrategy({
     if (!user) {
       user = userService.create({
         email: profile._json.email,
-        password: profile.id,
         role: 'customer',
+        password: profile.id,
         customer: {
           name: profile.displayName,
           phone: '00000000',
           maxOrders: 1
         }
       });
+    }
+    if(user.facebookId != profile.id.toString()){
+      await userService.update(user.id,{facebookId: profile.id.toString()})
     }
     const payload = {
       sub: user.id,

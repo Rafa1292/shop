@@ -9,6 +9,10 @@ const AccountSchema = {
     primaryKey: true,
     type: DataTypes.INTEGER
   },
+  userId: {
+    allowNull: false,
+    type: DataTypes.INTEGER
+  },
   name: {
     allowNull: false,
     unique: true,

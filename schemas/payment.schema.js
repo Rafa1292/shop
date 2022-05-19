@@ -7,7 +7,7 @@ const amount = Joi.number().integer();
 
 const createPaymentSchema = Joi.object({
   orderId: orderId.required(),
-  PaymentAccountHistory: createPaymentAccountHistorySchema,
+  paymentAccountHistory: createPaymentAccountHistorySchema,
   // accountHistories: Joi.array().items(Joi.object({
   //   amount: amount.required(),
   //   paymethodId : Joi.number().integer().required(),

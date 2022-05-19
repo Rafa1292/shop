@@ -10,10 +10,10 @@ const UserSchema = {
     type: DataTypes.INTEGER
   },
   facebookId: {
-    type: DataTypes.INTEGER
+    type: DataTypes.STRING
   },
   googleId: {
-    type: DataTypes.INTEGER
+    type: DataTypes.STRING
   },
   email: {
     allowNull: false,
