@@ -17,10 +17,17 @@ const createOrderSchema = Joi.object({
   credit: credit.required(),
   soldBy: soldBy.required(),
   close: close.required(),
+  stateId:  Joi.number().integer().required(),
   items: Joi.array().items(Joi.object({
-    productId: Joi.number().integer().required(),
-    quantity : Joi.number().integer().required(),
-    unitPrice : Joi.number().integer().required()
+    productMove: Joi.object().required({
+      quantity: Joi.number().integer().required(),
+      unitPrice: Joi.number().integer().required(),
+      productId: Joi.number().integer().required(),
+      investmentId: Joi.number().integer().required(),
+      sizeId: Joi.number().integer().required(),
+      exit: Joi.boolean().required(),
+      cost: Joi.number().integer().required()
+    })
     }))
 });
 

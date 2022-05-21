@@ -48,6 +48,10 @@ const OrderSchema = {
   },
   close: {
     type: DataTypes.BOOLEAN
+  },
+  stateId: {
+    allowNull: false,
+    type: DataTypes.INTEGER
   }
 }
 

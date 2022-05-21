@@ -24,6 +24,14 @@ const InvestmentSchema = {
 
 class Investment extends Model {
   static associate(models) {
+    this.hasMany(models.InvestmentDetail, {
+      as: 'details',
+      foreignKey: 'investmentId'
+    });
+    this.hasMany(models.InvestmentAccountHistory, {
+      as: 'histories',
+      foreignKey: 'investmentId'
+    });
   }
 
   static config(sequelize) {

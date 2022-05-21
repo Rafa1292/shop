@@ -19,6 +19,9 @@ const { OrderState, OrderStateSchema } = require('./order-state.model');
 const { Entry, EntrySchema } = require('./entry.model');
 const { Cost, CostSchema } = require('./cost.model');
 const { Investment, InvestmentSchema } = require('./investment.model');
+const { InvestmentDetail, InvestmentDetailSchema } = require('./investmentDetail.model');
+const { InvestmentAccountHistory, InvestmentAccountHistorySchema } = require('./investment-accountHistory.model');
+const { ProductMove, ProductMoveSchema } = require('./productMove.model');
 
 function SetUpModels(sequelize) {
   Account.init(AccountSchema, Account.config(sequelize));
@@ -42,6 +45,9 @@ function SetUpModels(sequelize) {
   OrderState.init(OrderStateSchema, OrderState.config(sequelize));
   AccountHistory.init(AccountHistorySchema, AccountHistory.config(sequelize));
   Investment.init(InvestmentSchema, Investment.config(sequelize));
+  InvestmentDetail.init(InvestmentDetailSchema, InvestmentDetail.config(sequelize));
+  InvestmentAccountHistory.init(InvestmentAccountHistorySchema, InvestmentAccountHistory.config(sequelize));
+  ProductMove.init(ProductMoveSchema, ProductMove.config(sequelize));
 
   AccountHistory.associate(sequelize.models);
   Cost.associate(sequelize.models);
@@ -64,6 +70,9 @@ function SetUpModels(sequelize) {
   OrderState.associate(sequelize.models);
   Paymethod.associate(sequelize.models);
   Investment.associate(sequelize.models);
+  InvestmentDetail.associate(sequelize.models);
+  InvestmentAccountHistory.associate(sequelize.models);
+  ProductMove.associate(sequelize.models);
 }
 
 module.exports = SetUpModels;

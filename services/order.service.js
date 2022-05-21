@@ -12,6 +12,12 @@ class OrderService {
     if (!response) {
       throw boom.conflict("Has alcanzado el maximo de ordenes abiertas");
     }
+    for (let index = 0; index < data.items.length; index++) {
+      const productMove = await models.ProductMove.create(
+        data.items[index].productMove
+      )
+      data.items[index].productMoveId = productMove.id;
+    }
     const newOrder = await models.Order.create(data, {
       include: ['items']
     });

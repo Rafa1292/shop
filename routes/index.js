@@ -17,6 +17,7 @@ const authRouter = require('./auth.router');
 const entryRouter = require('./entry.router');
 const costRouter = require('./cost.router');
 const investmentRouter = require('./investment.router');
+const investmentAccountHistoryRouter = require('./investment-accountHistory.router');
 
 function routerApi(app) {
   const router = express.Router();
@@ -38,6 +39,7 @@ function routerApi(app) {
   router.use('/entry', entryRouter);
   router.use('/cost', costRouter);
   router.use('/investment', investmentRouter);
+  router.use('/investmentAccountHistory', investmentAccountHistoryRouter);
 }
 
 module.exports = routerApi;
