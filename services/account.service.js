@@ -35,7 +35,12 @@ class AccountService {
   }
 
   async findOne(id) {
-    const account = await models.Account.findByPk(id);
+    const account = await models.Account.findByPk(id, {
+      include: [{
+        association: 'paymethods',
+        include: 'histories',
+      }],
+    });
     if (!account) {
       throw boom.notFound('user not found');
     }

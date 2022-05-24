@@ -36,10 +36,10 @@ function routerApi(app) {
   router.use('/users', usersRouter);
   router.use('/states', stateRouter);
   router.use('/auth', authRouter);
-  router.use('/entry', entryRouter);
-  router.use('/cost', costRouter);
-  router.use('/investment', investmentRouter);
-  router.use('/investmentAccountHistory', investmentAccountHistoryRouter);
+  router.use('/entries', entryRouter);
+  router.use('/costs', costRouter);
+  router.use('/investments', investmentRouter);
+  router.use('/investmentAccountHistories', investmentAccountHistoryRouter);
 }
 
 module.exports = routerApi;

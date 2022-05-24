@@ -8,6 +8,7 @@ class EntryService {
   constructor() {
   }
   async create(data) {
+    console.log('service')
     const paymethodId = data.accountHistory.paymethodId;
     const previousBalance = await accountService.getBalance(paymethodId);
     const newEntry = await models.Entry.create({

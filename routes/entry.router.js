@@ -22,9 +22,6 @@ router.get('/',
 
 
 router.post('/',
-  passport.authenticate('jwt', { session: false }),
-  checkRoles('admin'),
-  validatorHandler(createEntrySchema, 'body'),
   async (req, res, next) => {
     try {
       const body = req.body;
