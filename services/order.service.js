@@ -70,7 +70,11 @@ class OrderService {
         },
         {
           association: 'items',
-          include: ['product']
+          include: [{
+            association: 'productMove',
+            include: 'product'
+          }
+          ]
         },
         {
           association: 'payments',

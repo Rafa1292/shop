@@ -39,12 +39,13 @@ const OrderProductSchema = {
     },
     onUpdate: 'CASCADE',
     onDelete: 'SET NULL'
-
   }
 }
 
 class OrderProduct extends Model {
   static associate(models) {
+    this.belongsTo(models.ProductMove, {as: 'productMove'});
+
   }
 
   static config(sequelize) {

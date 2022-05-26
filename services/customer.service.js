@@ -36,14 +36,18 @@ class CustomerService {
           include: [
             {
               association: 'items',
-              include: ['product']
+              include: [{
+                association: 'productMove',
+                include: 'product'
+              }
+              ]
             },
             {
               association: 'payments',
               include: ['paymentAccountHistory']
             }
           ],
-          where:{
+          where: {
             close: false
           }
         }
@@ -56,7 +60,7 @@ class CustomerService {
   }
 
   async findOne(id) {
-    const customer = await models.Customer.findByPk(id,{
+    const customer = await models.Customer.findByPk(id, {
       include: ['orders']
     });
     if (!customer) {

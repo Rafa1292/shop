@@ -68,6 +68,12 @@ class ProductMove extends Model {
         foreignKey: 'productMoveId'
       }
     );
+    this.hasOne(models.OrderProduct,
+      {
+        as: 'item',
+        foreignKey: 'productMoveId'
+      }
+    );
   }
 
   static config(sequelize) {
