@@ -24,13 +24,32 @@ class InvestmentService {
     const rta = await models.Investment.findAll({
       include: [{
         association: 'details',
-        include: 'productMove'
+        include: [{
+          association: 'productMove',
+          include: ['product']
+        }]
       }, {
         association: 'histories',
         include: ['accountHistory']
       }]
     });
     return rta;
+  }
+
+  async findOne(id) {
+    const investment = await models.Investment.findByPk(id, {
+      include: [{
+        association: 'details',
+        include: 'productMove'
+      }, {
+        association: 'histories',
+        include: ['accountHistory']
+      }]
+    });
+    if (!investment) {
+      throw boom.notFound('user not found');
+    }
+    return investment;
   }
 }
 

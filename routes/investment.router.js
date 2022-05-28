@@ -36,5 +36,19 @@ router.post('/',
   }
 );
 
+router.get('/:id',
+passport.authenticate('jwt', { session: false }),
+checkRoles('admin'),
+  async (req, res, next) => {
+    try {
+      const { id } = req.params;
+      const investment = await service.findOne(id);
+      res.json(investment);
+    } catch (error) {
+      next(error);
+    }
+  }
+);
+
 
 module.exports = router;
