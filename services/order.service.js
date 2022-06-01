@@ -24,15 +24,17 @@ class OrderService {
     return newOrder;
   }
 
-  async checkBalance(id){
+  async checkBalance (id){
+    const reducer = (accumalator, currentValue) => accumalator + (currentValue.productMove.cost * currentValue.productMove.quantity);
+    const historyReducer = (accumalator, currentValue) => accumalator + (currentValue.paymentAccountHistory.amount);
     let order = await this.findOne(id);
-    const total = order.items.map(item => (item.unitPrice * item.quantity)).reduce((prev, curr) => prev + curr, 0);
-    const payments = order.payments.map(payment => payment.paymentAccountHistory.amount).reduce((prev, curr) => prev + curr, 0);
-    if(payments > total){
+    const payments = order.payments.reduce(historyReducer, 0);
+    const due = order.items.reduce(reducer, 0);
+    const diference = due - payments;
+    if(diference < 0){
       throw boom.badData('El pago no puede ser mayor al saldo');
     }
-
-    if(payments == total){
+    if(payments == due){
       this.update(id, {close: true});
     }
   }
@@ -54,6 +56,30 @@ class OrderService {
 
   async findByCustomer(customerId) {
     const rta = await models.Order.findAll({
+      include: [
+        {
+          association: 'items',
+          include: [{
+            association: 'productMove',
+            include: 'product'
+          }
+          ]
+        },
+        {
+          association: 'payments',
+          include: [
+            {
+              association: 'paymentAccountHistory',
+              include: [{
+                association: 'accountHistory',
+                include: [{
+                  association: 'paymethod'
+                }]
+              }]
+            }
+          ]
+        },
+      ],
       where: {
         customerId: customerId
       }
