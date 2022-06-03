@@ -54,6 +54,20 @@ router.post('/',
   }
 );
 
+router.patch('/:id',
+  validatorHandler(getOrderSchema, 'params'),
+  async (req, res, next) => {
+    try {
+      const { id } = req.params;
+      const body = req.body;
+      const order = await service.update(id, body);
+      res.json(order);
+    } catch (error) {
+      next(error);
+    }
+  }
+);
+
 router.post('/add-item',
   validatorHandler(addItemSchema, 'body'),
   async (req, res, next) => {

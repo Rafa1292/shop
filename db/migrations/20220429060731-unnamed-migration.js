@@ -15,7 +15,6 @@ module.exports = {
     await queryInterface.createTable(BRAND_TABLE, BrandSchema);
     await queryInterface.createTable(SIZE_TABLE, SizeSchema);
     await queryInterface.createTable(PRODUCT_TABLE, ProductSchema);
-    await queryInterface.createTable(PRODUCT_SIZE_TABLE, ProductSizeSchema);
   },
 
   async down (queryInterface, Sequelize) {

@@ -49,6 +49,9 @@ const OrderSchema = {
   close: {
     type: DataTypes.BOOLEAN
   },
+  delivered: {
+    type: DataTypes.BOOLEAN
+  },
   stateId: {
     allowNull: false,
     type: DataTypes.INTEGER
@@ -59,6 +62,9 @@ class Order extends Model {
   static associate(models) {
     this.belongsTo(models.Customer,
       { as: 'customer' }
+    );
+    this.belongsTo(models.State,
+      { as: 'state' }
     );
     this.hasMany(models.OrderProduct, {
       as: 'items',

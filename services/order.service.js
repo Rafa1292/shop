@@ -2,6 +2,7 @@ const boom = require('@hapi/boom');
 const { models } = require('./../libs/sequelize');
 const CustomerService = require('../services/customer.service')
 const customerService = new CustomerService();
+const { Sequelize } = require('sequelize');
 
 class OrderService {
 
@@ -24,18 +25,18 @@ class OrderService {
     return newOrder;
   }
 
-  async checkBalance (id){
+  async checkBalance(id) {
     const reducer = (accumalator, currentValue) => accumalator + (currentValue.productMove.cost * currentValue.productMove.quantity);
     const historyReducer = (accumalator, currentValue) => accumalator + (currentValue.paymentAccountHistory.amount);
     let order = await this.findOne(id);
     const payments = order.payments.reduce(historyReducer, 0);
     const due = order.items.reduce(reducer, 0);
     const diference = due - payments;
-    if(diference < 0){
+    if (diference < 0) {
       throw boom.badData('El pago no puede ser mayor al saldo');
     }
-    if(payments == due){
-      this.update(id, {close: true});
+    if (payments == due) {
+      this.update(id, { close: true });
     }
   }
 
@@ -50,7 +51,22 @@ class OrderService {
   }
 
   async find() {
-    const rta = await models.Order.findAll();
+    const rta = await models.Order.findAll({
+      include: ['state', 'customer',
+      {
+        association:'items',
+        include: [
+          {
+            association: 'productMove',
+            include: ['product', 'size']
+          },
+          ]
+      }],
+      where: {
+        close: false,
+        delivered: true
+      }
+    });
     return rta;
   }
 

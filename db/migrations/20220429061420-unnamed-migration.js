@@ -3,7 +3,6 @@ const { ORDER_STATE_TABLE, OrderStateSchema } = require('../models/order-state.m
 
 module.exports = {
   async up (queryInterface, Sequelize) {
-    await queryInterface.createTable(ORDER_STATE_TABLE, OrderStateSchema);
   },
 
   async down (queryInterface, Sequelize) {
