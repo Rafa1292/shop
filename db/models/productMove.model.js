@@ -44,6 +44,9 @@ const ProductMoveSchema = {
     field: 'created_at',
     defaultValue: Sequelize.NOW
   },
+  delivered: {
+    type: DataTypes.BOOLEAN
+  },
   exit: {
     allowNull: false,
     type: DataTypes.BOOLEAN,

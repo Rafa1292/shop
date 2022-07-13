@@ -2,7 +2,7 @@ const boom = require('@hapi/boom');
 const { models } = require('./../libs/sequelize');
 const CustomerService = require('../services/customer.service')
 const customerService = new CustomerService();
-const { Sequelize } = require('sequelize');
+const sequelize = require('./../libs/sequelize');
 
 class OrderService {
 
@@ -64,7 +64,7 @@ class OrderService {
       }],
       where: {
         close: false,
-        delivered: true
+        delivered: false
       }
     });
     return rta;
@@ -142,9 +142,30 @@ class OrderService {
   }
 
   async update(id, changes) {
-    const order = await this.findOne(id);
-    const rta = order.update(changes);
-    return rta;
+
+    try {
+      const order = await this.findOne(id);
+      const rta = order.update(changes);
+      console.log('orden actualizada');
+
+      return rta;
+
+    } catch (error) {
+    }
+  }
+
+  async updateProductMoves(orderId) {
+    const orderProducts =  await models.OrderProduct.findAll({
+      where: {
+        orderId: orderId
+      }
+    })
+
+   orderProducts.forEach(op => {
+     const rta = op.update({delivered: true});
+     console.log('ACTUALIZANDO PRODUCTMOVES')
+     console.log(rta)
+   })
   }
 
   async delete(id) {

@@ -50,7 +50,8 @@ const OrderSchema = {
     type: DataTypes.BOOLEAN
   },
   delivered: {
-    type: DataTypes.BOOLEAN
+    type: DataTypes.BOOLEAN,
+    defaultValue: false
   },
   stateId: {
     allowNull: false,

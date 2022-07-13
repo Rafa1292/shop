@@ -48,7 +48,8 @@ class CustomerService {
             }
           ],
           where: {
-            close: false
+            close: false,
+            delivered: true
           }
         }
       ]
