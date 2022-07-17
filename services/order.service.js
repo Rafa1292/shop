@@ -3,11 +3,14 @@ const { models } = require('./../libs/sequelize');
 const CustomerService = require('../services/customer.service')
 const customerService = new CustomerService();
 const sequelize = require('./../libs/sequelize');
+const InventoryService = require('../services/inventory.service');
+const { date } = require('joi');
+const inventoryService = new InventoryService();
 
 class OrderService {
-
   constructor() {
   }
+
   async create(data) {
     const response = await customerService.customerCanOrder(data.customerId);
     if (!response) {
@@ -22,6 +25,7 @@ class OrderService {
     const newOrder = await models.Order.create(data, {
       include: ['items']
     });
+
     return newOrder;
   }
 
@@ -53,15 +57,15 @@ class OrderService {
   async find() {
     const rta = await models.Order.findAll({
       include: ['state', 'customer',
-      {
-        association:'items',
-        include: [
-          {
-            association: 'productMove',
-            include: ['product', 'size']
-          },
+        {
+          association: 'items',
+          include: [
+            {
+              association: 'productMove',
+              include: ['product', 'size']
+            },
           ]
-      }],
+        }],
       where: {
         close: false,
         delivered: false
@@ -143,29 +147,62 @@ class OrderService {
 
   async update(id, changes) {
 
-    try {
+      if (changes.delivered)
+        await this.updateProductMoves(id);
+
       const order = await this.findOne(id);
-      const rta = order.update(changes);
-      console.log('orden actualizada');
+      const rta = await order.update(changes);
 
       return rta;
-
-    } catch (error) {
-    }
   }
 
   async updateProductMoves(orderId) {
-    const orderProducts =  await models.OrderProduct.findAll({
+
+    const orderProducts = await models.OrderProduct.findAll({
       where: {
         orderId: orderId
-      }
+      },
+      include: ['productMove']
     })
 
-   orderProducts.forEach(op => {
-     const rta = op.update({delivered: true});
-     console.log('ACTUALIZANDO PRODUCTMOVES')
-     console.log(rta)
-   })
+    const productMoves = orderProducts.map(x => x.productMove);
+
+    for (let productMove of productMoves) {
+      productMove = await this.verifyIfProductIsInStock(productMove);
+      console.log('-----pmo------------')
+      console.log(productMove)
+    }
+    for (let productMove of productMoves) {
+      const rta = await productMove.update({ delivered: true, cost: productMove.cost });
+    }
+
+  }
+
+  async verifyIfProductIsInStock(productMove) {
+    const lastDate = await inventoryService.getDateLastInventory();
+    let productInventory = await inventoryService.getProductInventory(
+      productMove.sizeId,
+      productMove.productId
+    );
+
+    productInventory = await inventoryService.finishProductInventory(
+      productInventory,
+      lastDate,
+      new Date(new Date())
+    );
+
+    if (productInventory.finalQuantity < productMove.quantity) {
+      throw 'No hay suficientes articulos en bodega';
+    }
+
+    const cost = productInventory.initialQuantity > 0 ? productInventory.initialCost : productInventory.addedCost;
+    const quantity = productInventory.initialQuantity > 0 ? productInventory.initialQuantity: productInventory.addedQuantity;
+    console.log('---------------------')
+    console.log(cost)
+    console.log(quantity)
+    productMove.cost = cost / quantity;
+    console.log(productMove)
+    return productMove;
   }
 
   async delete(id) {

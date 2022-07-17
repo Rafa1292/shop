@@ -22,6 +22,8 @@ const { Investment, InvestmentSchema } = require('./investment.model');
 const { InvestmentDetail, InvestmentDetailSchema } = require('./investmentDetail.model');
 const { InvestmentAccountHistory, InvestmentAccountHistorySchema } = require('./investment-accountHistory.model');
 const { ProductMove, ProductMoveSchema } = require('./productMove.model');
+const { Inventory, InventorySchema } = require('./inventory.model');
+const { ProductInventory, ProductInventorySchema } = require('./productInventory.model');
 
 function SetUpModels(sequelize) {
   Account.init(AccountSchema, Account.config(sequelize));
@@ -48,6 +50,8 @@ function SetUpModels(sequelize) {
   InvestmentDetail.init(InvestmentDetailSchema, InvestmentDetail.config(sequelize));
   InvestmentAccountHistory.init(InvestmentAccountHistorySchema, InvestmentAccountHistory.config(sequelize));
   ProductMove.init(ProductMoveSchema, ProductMove.config(sequelize));
+  ProductInventory.init(ProductInventorySchema, ProductInventory.config(sequelize));
+  Inventory.init(InventorySchema, Inventory.config(sequelize));
 
   AccountHistory.associate(sequelize.models);
   Cost.associate(sequelize.models);
@@ -73,6 +77,8 @@ function SetUpModels(sequelize) {
   InvestmentDetail.associate(sequelize.models);
   InvestmentAccountHistory.associate(sequelize.models);
   ProductMove.associate(sequelize.models);
+  Inventory.associate(sequelize.models);
+  ProductInventory.associate(sequelize.models);
 }
 
 module.exports = SetUpModels;

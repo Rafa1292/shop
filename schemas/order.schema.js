@@ -23,6 +23,7 @@ const createOrderSchema = Joi.object({
   delivered: delivered.required(),
   stateId:  Joi.number().integer().required(),
   items: Joi.array().items(Joi.object({
+    price: Joi.number().integer().required(),
     productMove: Joi.object().required({
       quantity: Joi.number().integer().required(),
       unitPrice: Joi.number().integer().required(),

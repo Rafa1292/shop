@@ -63,7 +63,8 @@ router.patch('/:id',
       const order = await service.update(id, body);
       res.json(order);
     } catch (error) {
-      next(error);
+      res.status(206)
+      res.json(error);
     }
   }
 );

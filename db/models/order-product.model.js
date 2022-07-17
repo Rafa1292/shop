@@ -39,7 +39,11 @@ const OrderProductSchema = {
     },
     onUpdate: 'CASCADE',
     onDelete: 'SET NULL'
-  }
+  },
+  price:{
+    allowNull: false,
+    type: DataTypes.INTEGER
+  },
 }
 
 class OrderProduct extends Model {
