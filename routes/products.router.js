@@ -12,11 +12,18 @@ router.get('/',
   async (req, res, next) => {
     try {
       const products = await service.find(req.query);
-      res.json(products);
+      res.json({
+        error: false,
+        content: products
+      });
     } catch (error) {
-      next(error);
+      return {
+        error: true,
+        message: error
+      }
     }
-  });
+  }
+);
 
 router.get('/:id',
   passport.authenticate('jwt', { session: false }),
@@ -26,9 +33,15 @@ router.get('/:id',
     try {
       const { id } = req.params;
       const product = await service.findOne(id);
-      res.json(product);
+      res.json({
+        error: false,
+        content: product
+      });
     } catch (error) {
-      next(error);
+      return {
+        error: true,
+        message: error
+      }
     }
   }
 );
@@ -41,9 +54,15 @@ router.post('/',
     try {
       const body = req.body;
       const newProduct = await service.create(body);
-      res.status(201).json(newProduct);
+      res.json({
+        error: false,
+        content: newProduct
+      });
     } catch (error) {
-      next(error);
+      return {
+        error: true,
+        message: error
+      }
     }
   }
 );
@@ -58,9 +77,15 @@ router.patch('/:id',
       const { id } = req.params;
       const body = req.body;
       const product = await service.update(id, body);
-      res.json(product);
+      res.json({
+        error: false,
+        content: product
+      });
     } catch (error) {
-      next(error);
+      return {
+        error: true,
+        message: error
+      }
     }
   }
 );
@@ -73,9 +98,15 @@ router.delete('/:id',
     try {
       const { id } = req.params;
       await service.delete(id);
-      res.status(201).json({ id });
+      res.json({
+        error: false,
+        content: id
+      });
     } catch (error) {
-      next(error);
+      return {
+        error: true,
+        message: error
+      }
     }
   }
 );

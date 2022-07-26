@@ -6,14 +6,22 @@ const { createOrderSchema, getOrderSchema, addItemSchema } = require('./../schem
 const router = express.Router();
 const service = new OrderService();
 
-router.get('/', async (req, res, next) => {
-  try {
-    const orders = await service.find();
-    res.json(orders);
-  } catch (error) {
-    next(error);
+router.get('/',
+  async (req, res, next) => {
+    try {
+      const orders = await service.find();
+      res.json({
+        error: false,
+        content: orders
+      });
+    } catch (error) {
+      return {
+        error: true,
+        message: error
+      }
+    }
   }
-});
+);
 
 router.get('/:id',
   validatorHandler(getOrderSchema, 'params'),
@@ -21,9 +29,15 @@ router.get('/:id',
     try {
       const { id } = req.params;
       const order = await service.findOne(id);
-      res.json(order);
+      res.json({
+        error: false,
+        content: order
+      });
     } catch (error) {
-      next(error);
+      return {
+        error: true,
+        message: error
+      }
     }
   }
 );
@@ -34,9 +48,15 @@ router.get('/customer/:id',
     try {
       const { id } = req.params;
       const order = await service.findByCustomer(id);
-      res.json(order);
+      res.json({
+        error: false,
+        content: order
+      });
     } catch (error) {
-      next(error);
+      return {
+        error: true,
+        message: error
+      }
     }
   }
 );
@@ -47,9 +67,15 @@ router.post('/',
     try {
       const body = req.body;
       const newOrder = await service.create(body);
-      res.status(201).json(newOrder);
+      res.json({
+        error: false,
+        content: newOrder
+      });
     } catch (error) {
-      next(error);
+      return {
+        error: true,
+        message: error
+      }
     }
   }
 );
@@ -61,10 +87,15 @@ router.patch('/:id',
       const { id } = req.params;
       const body = req.body;
       const order = await service.update(id, body);
-      res.json(order);
+      res.json({
+        error: false,
+        content: order
+      });
     } catch (error) {
-      res.status(206)
-      res.json(error);
+      return {
+        error: true,
+        message: error
+      }
     }
   }
 );
@@ -75,9 +106,15 @@ router.post('/add-item',
     try {
       const body = req.body;
       const newItem = await service.addItem(body);
-      res.status(201).json(newItem);
+      res.json({
+        error: false,
+        content: order
+      });
     } catch (error) {
-      next(error);
+      return {
+        error: true,
+        message: error
+      }
     }
   }
 );

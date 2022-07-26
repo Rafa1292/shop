@@ -10,15 +10,21 @@ const service = new SizeService();
 
 router.get('/',
   passport.authenticate('jwt', { session: false }),
-  checkRoles('admin'),
   async (req, res, next) => {
     try {
       const sizes = await service.find();
-      res.json(sizes);
+      res.json({
+        error: false,
+        content: sizes
+      });
     } catch (error) {
-      next(error);
+      return {
+        error: true,
+        message: error
+      }
     }
-  });
+  }
+);
 
 router.get('/:id',
   passport.authenticate('jwt', { session: false }),
@@ -28,9 +34,15 @@ router.get('/:id',
     try {
       const { id } = req.params;
       const size = await service.findOne(id);
-      res.json(size);
+      res.json({
+        error: false,
+        content: size
+      });
     } catch (error) {
-      next(error);
+      return {
+        error: true,
+        message: error
+      }
     }
   }
 );
@@ -43,9 +55,15 @@ router.post('/',
     try {
       const body = req.body;
       const newSize = await service.create(body);
-      res.status(201).json(newSize);
+      res.json({
+        error: false,
+        content: newSize
+      });
     } catch (error) {
-      next(error);
+      return {
+        error: true,
+        message: error
+      }
     }
   }
 );
@@ -60,9 +78,15 @@ router.patch('/:id',
       const { id } = req.params;
       const body = req.body;
       const size = await service.update(id, body);
-      res.json(size);
+      res.json({
+        error: false,
+        content: size
+      });
     } catch (error) {
-      next(error);
+      return {
+        error: true,
+        message: error
+      }
     }
   }
 );
@@ -75,9 +99,15 @@ router.delete('/:id',
     try {
       const { id } = req.params;
       await service.delete(id);
-      res.status(201).json({ id });
+      res.json({
+        error: false,
+        content: id
+      });
     } catch (error) {
-      next(error);
+      return {
+        error: true,
+        message: error
+      }
     }
   }
 );

@@ -14,9 +14,15 @@ router.get('/',
   async (req, res, next) => {
     try {
       const entries = await service.find();
-      res.json(entries);
+      res.json({
+        error: false,
+        content: entries
+      });
     } catch (error) {
-      next(error);
+      return {
+        error: true,
+        message: error
+      }
     }
   });
 
@@ -26,9 +32,15 @@ router.post('/',
     try {
       const body = req.body;
       const newEntry = await service.create(body);
-      res.status(201).json(newEntry);
+      res.json({
+        error: false,
+        content: newEntry
+      });
     } catch (error) {
-      next(error);
+      return {
+        error: true,
+        message: error
+      }
     }
   }
 );

@@ -8,14 +8,20 @@ const { updateCustomerSchema, createCustomerSchema, getCustomerSchema } = requir
 const router = express.Router();
 const service = new CustomerService();
 
-router.get('/',async (req, res, next) => {
-    try {
-      const customers = await service.find();
-      res.json(customers);
-    } catch (error) {
-      next(error);
+router.get('/', async (req, res, next) => {
+  try {
+    const customers = await service.find();
+    res.json({
+      error: false,
+      content: customers
+    });
+  } catch (error) {
+    return {
+      error: true,
+      message: error
     }
-  });
+  }
+});
 
 router.get('/withOrders/:id',
   passport.authenticate('jwt', { session: false }),
@@ -25,9 +31,15 @@ router.get('/withOrders/:id',
     try {
       const { id } = req.params;
       const customer = await service.findOneWithOrders(id);
-      res.json(customer);
+      res.json({
+        error: false,
+        content: customer
+      });
     } catch (error) {
-      next(error);
+      return {
+        error: true,
+        message: error
+      }
     }
   }
 );
@@ -40,9 +52,15 @@ router.get('/:id',
     try {
       const { id } = req.params;
       const customer = await service.findOne(id);
-      res.json(customer);
+      res.json({
+        error: false,
+        content: customer
+      });
     } catch (error) {
-      next(error);
+      return {
+        error: true,
+        message: error
+      }
     }
   }
 );
@@ -55,9 +73,15 @@ router.post('/',
     try {
       const body = req.body;
       const newCustomer = await service.create(body);
-      res.status(201).json(newCustomer);
+      res.json({
+        error: false,
+        content: newCustomer
+      });
     } catch (error) {
-      next(error);
+      return {
+        error: true,
+        message: error
+      }
     }
   }
 );
@@ -72,9 +96,15 @@ router.patch('/:id',
       const { id } = req.params;
       const body = req.body;
       const customer = await service.update(id, body);
-      res.json(customer);
+      res.json({
+        error: false,
+        content: customer
+      });
     } catch (error) {
-      next(error);
+      return {
+        error: true,
+        message: error
+      }
     }
   }
 );
@@ -87,9 +117,15 @@ router.delete('/:id',
     try {
       const { id } = req.params;
       await service.delete(id);
-      res.status(201).json({ id });
+      res.json({
+        error: false,
+        content: id
+      });
     } catch (error) {
-      next(error);
+      return {
+        error: true,
+        message: error
+      }
     }
   }
 );

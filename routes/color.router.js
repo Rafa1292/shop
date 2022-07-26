@@ -13,9 +13,15 @@ router.get('/',
   checkRoles('admin'), async (req, res, next) => {
     try {
       const colors = await service.find();
-      res.json(colors);
+      res.json({
+        error: false,
+        content: colors
+      });
     } catch (error) {
-      next(error);
+      return {
+        error: true,
+        message: error
+      }
     }
   });
 
@@ -27,9 +33,15 @@ router.get('/:id',
     try {
       const { id } = req.params;
       const color = await service.findOne(id);
-      res.json(color);
+      res.json({
+        error: false,
+        content: color
+      });
     } catch (error) {
-      next(error);
+      return {
+        error: true,
+        message: error
+      }
     }
   }
 );
@@ -42,9 +54,15 @@ router.post('/',
     try {
       const body = req.body;
       const newColor = await service.create(body);
-      res.status(201).json(newColor);
+      res.json({
+        error: false,
+        content: newColor
+      });
     } catch (error) {
-      next(error);
+      return {
+        error: true,
+        message: error
+      }
     }
   }
 );
@@ -59,9 +77,15 @@ router.patch('/:id',
       const { id } = req.params;
       const body = req.body;
       const color = await service.update(id, body);
-      res.json(color);
+      res.json({
+        error: false,
+        content: color
+      });
     } catch (error) {
-      next(error);
+      return {
+        error: true,
+        message: error
+      }
     }
   }
 );
@@ -74,9 +98,15 @@ router.delete('/:id',
     try {
       const { id } = req.params;
       await service.delete(id);
-      res.status(201).json({ id });
+      res.json({
+        error: false,
+        content: id
+      });
     } catch (error) {
-      next(error);
+      return {
+        error: true,
+        message: error
+      }
     }
   }
 );

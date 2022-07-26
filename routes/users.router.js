@@ -13,27 +13,41 @@ router.get('/',
   checkRoles('admin'), async (req, res, next) => {
     try {
       const users = await service.find();
-      res.json(users);
+      res.json({
+        error: false,
+        content: users
+      });
     } catch (error) {
-      next(error);
+      return {
+        error: true,
+        message: error
+      }
     }
-  });
+  }
+);
 
-  router.get('/get-role',
-    passport.authenticate('jwt', { session: false }),
-    async (req, res, next) => {
-      try {
-        const user = await service.findOne(req.user.sub);
-        res.json({
+router.get('/get-role',
+  passport.authenticate('jwt', { session: false }),
+  async (req, res, next) => {
+    try {
+      const user = await service.findOne(req.user.sub);
+      res.json({
+        error: false,
+        content: {
           role: user.role,
           sub: user.id,
           user: user.email,
           customerId: user.customer ? user.customer.id : 0
-        });
-      } catch (error) {
-        next(error);
+        }
+      });
+    } catch (error) {
+      return {
+        error: true,
+        message: error
       }
-    });
+    }
+  }
+);
 
 router.get('/:id',
   passport.authenticate('jwt', { session: false }),
@@ -42,15 +56,19 @@ router.get('/:id',
   async (req, res, next) => {
     try {
       const { id } = req.params;
-      const category = await service.findOne(id);
-      res.json(category);
+      const user = await service.findOne(id);
+      res.json({
+        error: false,
+        content: user
+      });
     } catch (error) {
-      next(error);
+      return {
+        error: true,
+        message: error
+      }
     }
   }
 );
-
-
 
 router.post('/',
   validatorHandler(createUserSchema, 'body'),
@@ -58,9 +76,15 @@ router.post('/',
     try {
       const body = req.body;
       const newUser = await service.create(body);
-      res.status(201).json(newUser);
+      res.json({
+        error: false,
+        content: newUser
+      });
     } catch (error) {
-      next(error);
+      return {
+        error: true,
+        message: error
+      }
     }
   }
 );
@@ -72,10 +96,16 @@ router.patch('/:id',
     try {
       const { id } = req.params;
       const body = req.body;
-      const category = await service.update(id, body);
-      res.json(category);
+      const user = await service.update(id, body);
+      res.json({
+        error: false,
+        content: user
+      });
     } catch (error) {
-      next(error);
+      return {
+        error: true,
+        message: error
+      }
     }
   }
 );
@@ -88,9 +118,15 @@ router.delete('/:id',
     try {
       const { id } = req.params;
       await service.delete(id);
-      res.status(201).json({ id });
+      res.json({
+        error: false,
+        content: id
+      });
     } catch (error) {
-      next(error);
+      return {
+        error: true,
+        message: error
+      }
     }
   }
 );

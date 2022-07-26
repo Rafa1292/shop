@@ -16,9 +16,15 @@ router.post('/',
     try {
       const body = req.body;
       const newInvestmentAccountHistory = await service.create(body);
-      res.status(201).json(newInvestmentAccountHistory);
+      res.json({
+        error: false,
+        content: newInvestmentAccountHistory
+      });
     } catch (error) {
-      next(error);
+      return {
+        error: true,
+        message: error
+      }
     }
   }
 );

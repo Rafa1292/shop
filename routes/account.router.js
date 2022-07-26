@@ -10,13 +10,18 @@ const service = new AccountService();
 
 router.get('/',
   passport.authenticate('jwt', { session: false }),
-  checkRoles('admin'),
   async (req, res, next) => {
     try {
       const accounts = await service.find();
-      res.json(accounts);
+      res.json({
+        error: false,
+        content: accounts
+      });
     } catch (error) {
-      next(error);
+      return {
+        error: true,
+        message: error
+      }
     }
   });
 
@@ -28,9 +33,16 @@ router.get('/:id',
     try {
       const { id } = req.params;
       const account = await service.findOne(id);
-      res.json(account);
+      res.json(
+        {
+          error: false,
+          content: account
+        });
     } catch (error) {
-      next(error);
+      return {
+        error: true,
+        message: error
+      }
     }
   }
 );
@@ -43,9 +55,15 @@ router.post('/',
     try {
       const body = req.body;
       const newAccount = await service.create(body);
-      res.status(201).json(newAccount);
+      res.json({
+        error: false,
+        content: newAccount
+      });
     } catch (error) {
-      next(error);
+      return {
+        error: true,
+        message: error
+      }
     }
   }
 );
@@ -60,9 +78,16 @@ router.patch('/:id',
       const { id } = req.params;
       const body = req.body;
       const account = await service.update(id, body);
-      res.json(account);
+      res.json(
+        {
+          error: false,
+          content: account
+        });
     } catch (error) {
-      next(error);
+      return {
+        error: true,
+        message: error
+      }
     }
   }
 );

@@ -13,11 +13,18 @@ router.get('/',
   checkRoles('admin'), async (req, res, next) => {
     try {
       const paymethods = await service.find();
-      res.json(paymethods);
+      res.json({
+        error: false,
+        content: paymethods
+      });
     } catch (error) {
-      next(error);
+      return {
+        error: true,
+        message: error
+      }
     }
-  });
+  }
+);
 
 router.get('/:id',
   passport.authenticate('jwt', { session: false }),
@@ -27,9 +34,15 @@ router.get('/:id',
     try {
       const { id } = req.params;
       const paymethod = await service.findOne(id);
-      res.json(paymethod);
+      res.json({
+        error: false,
+        content: paymethod
+      });
     } catch (error) {
-      next(error);
+      return {
+        error: true,
+        message: error
+      }
     }
   }
 );
@@ -42,9 +55,15 @@ router.post('/',
     try {
       const body = req.body;
       const newPaymethod = await service.create(body);
-      res.status(201).json(newPaymethod);
+      res.json({
+        error: false,
+        content: newPaymethod
+      });
     } catch (error) {
-      next(error);
+      return {
+        error: true,
+        message: error
+      }
     }
   }
 );
@@ -59,9 +78,15 @@ router.patch('/:id',
       const { id } = req.params;
       const body = req.body;
       const paymethod = await service.update(id, body);
-      res.json(paymethod);
+      res.json({
+        error: false,
+        content: paymethod
+      });
     } catch (error) {
-      next(error);
+      return {
+        error: true,
+        message: error
+      }
     }
   }
 );

@@ -2,7 +2,7 @@ const express = require('express');
 const passport = require('passport');
 const jwt = require('jsonwebtoken');
 
-const {config} = require('../config/config')
+const { config } = require('../config/config')
 const router = express.Router();
 
 router.post('/login',
@@ -16,11 +16,17 @@ router.post('/login',
       }
       const token = jwt.sign(payload, config.jwtSecret);
       res.json({
-        user,
-        token
+        error: false,
+        content: {
+          user,
+          token
+        }
       });
     } catch (error) {
-      next(error);
+      return {
+        error: true,
+        message: error
+      }
     }
   }
 );
@@ -34,24 +40,25 @@ router.get("/login/success", (req, res) => {
 });
 
 router.get('/facebook',
-passport.authenticate('facebook',{ scope : ['email'] }));
-
-router.get('/facebook/callback',
-passport.authenticate('facebook', { failureRedirect: 'http://localhost:8080/login' }),
-function(req,res){
-  res.cookie('token', req.user)
-  res.redirect('http://localhost:8080/')
-});
+  passport.authenticate('facebook', { scope: ['email'] }));
 
 router.get('/google',
-passport.authenticate('google',{ scope : ['email'] }));
+  passport.authenticate('google', { scope: ['email'] }));
+
+router.get('/facebook/callback',
+  passport.authenticate('facebook', { failureRedirect: 'http://localhost:8080/login' }),
+  function (req, res) {
+    res.cookie('token', req.user)
+    res.redirect('http://localhost:8080/')
+  });
+
 
 router.get('/google/callback',
-passport.authenticate('google', { failureRedirect: 'http://localhost:8080/login', session: false }),
-function(req,res){
-  console.log(req.user)
-  res.cookie('token', req.user)
-  res.redirect('http://localhost:8080/')
-});
+  passport.authenticate('google', { failureRedirect: 'http://localhost:8080/login', session: false }),
+  function (req, res) {
+    console.log(req.user)
+    res.cookie('token', req.user)
+    res.redirect('http://localhost:8080/')
+  });
 
 module.exports = router;

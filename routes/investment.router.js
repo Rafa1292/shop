@@ -14,12 +14,18 @@ router.get('/',
   async (req, res, next) => {
     try {
       const investments = await service.find();
-      res.json(investments);
+      res.json({
+        error: false,
+        content: investments
+      });
     } catch (error) {
-      next(error);
+      return {
+        error: true,
+        message: error
+      }
     }
-  });
-
+  }
+);
 
 router.post('/',
   passport.authenticate('jwt', { session: false }),
@@ -29,26 +35,37 @@ router.post('/',
     try {
       const body = req.body;
       const newInvestment = await service.create(body);
-      res.status(201).json(newInvestment);
+      res.json({
+        error: false,
+        content: newInvestment
+      });
     } catch (error) {
-      next(error);
+      return {
+        error: true,
+        message: error
+      }
     }
   }
 );
 
 router.get('/:id',
-passport.authenticate('jwt', { session: false }),
-checkRoles('admin'),
+  passport.authenticate('jwt', { session: false }),
+  checkRoles('admin'),
   async (req, res, next) => {
     try {
       const { id } = req.params;
       const investment = await service.findOne(id);
-      res.json(investment);
+      res.json({
+        error: false,
+        content: investment
+      });
     } catch (error) {
-      next(error);
+      return {
+        error: true,
+        message: error
+      }
     }
   }
 );
-
 
 module.exports = router;

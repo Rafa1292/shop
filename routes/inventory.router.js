@@ -13,9 +13,15 @@ router.post('/',
   async (req, res, next) => {
     try {
       const newInventory = await service.create();
-      res.status(201).json(newInventory);
+      res.json({
+        error: false,
+        content: newInventory
+      });
     } catch (error) {
-      next(error);
+      return {
+        error: true,
+        message: error
+      }
     }
   }
 );

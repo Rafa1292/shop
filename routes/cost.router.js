@@ -14,9 +14,15 @@ router.get('/',
   async (req, res, next) => {
     try {
       const costs = await service.find();
-      res.json(costs);
+      res.json({
+        error: false,
+        content: costs
+      });
     } catch (error) {
-      next(error);
+      return {
+        error: true,
+        message: error
+      }
     }
   });
 
@@ -29,9 +35,15 @@ router.post('/',
     try {
       const body = req.body;
       const newCost = await service.create(body);
-      res.status(201).json(newCost);
+      res.json({
+        error: false,
+        content: newCost
+      });
     } catch (error) {
-      next(error);
+      return {
+        error: true,
+        message: error
+      }
     }
   }
 );
