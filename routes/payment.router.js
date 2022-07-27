@@ -18,10 +18,10 @@ router.get('/',
         content: payments
       });
     } catch (error) {
-      return {
+      res.json( {
         error: true,
         message: error
-      }
+      })
     }
   }
 );
@@ -39,10 +39,10 @@ router.get('/:id',
         content: payment
       });
     } catch (error) {
-      return {
+      res.json( {
         error: true,
         message: error
-      }
+      })
     }
   }
 );
@@ -60,10 +60,10 @@ router.post('/',
         content: newPayment
       });
     } catch (error) {
-      return {
+      res.json( {
         error: true,
         message: error
-      }
+      })
     }
   }
 );

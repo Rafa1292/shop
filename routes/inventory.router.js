@@ -18,10 +18,10 @@ router.post('/',
         content: newInventory
       });
     } catch (error) {
-      return {
+      res.json({
         error: true,
         message: error
-      }
+      })
     }
   }
 );

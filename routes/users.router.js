@@ -18,10 +18,10 @@ router.get('/',
         content: users
       });
     } catch (error) {
-      return {
+      res.json({
         error: true,
         message: error
-      }
+      })
     }
   }
 );
@@ -41,10 +41,10 @@ router.get('/get-role',
         }
       });
     } catch (error) {
-      return {
+      res.json({
         error: true,
         message: error
-      }
+      })
     }
   }
 );
@@ -62,10 +62,10 @@ router.get('/:id',
         content: user
       });
     } catch (error) {
-      return {
+      res.json({
         error: true,
         message: error
-      }
+      })
     }
   }
 );
@@ -81,10 +81,10 @@ router.post('/',
         content: newUser
       });
     } catch (error) {
-      return {
+      res.json({
         error: true,
         message: error
-      }
+      })
     }
   }
 );
@@ -102,10 +102,10 @@ router.patch('/:id',
         content: user
       });
     } catch (error) {
-      return {
+      res.json({
         error: true,
         message: error
-      }
+      })
     }
   }
 );
@@ -123,10 +123,10 @@ router.delete('/:id',
         content: id
       });
     } catch (error) {
-      return {
+      res.json({
         error: true,
         message: error
-      }
+      })
     }
   }
 );

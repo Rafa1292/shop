@@ -20,12 +20,13 @@ router.get('/',
           content: categories
         });
     } catch (error) {
-      return {
+      res.json({
         error: true,
         message: error
-      }
+      })
     }
-  });
+  }
+);
 
 router.get('/:id',
   passport.authenticate('jwt', { session: false }),
@@ -41,10 +42,10 @@ router.get('/:id',
           content: category
         });
     } catch (error) {
-      return {
+      res.json({
         error: true,
         message: error
-      }
+      })
     }
   }
 );
@@ -65,10 +66,10 @@ router.post('/',
           content: newCategory
         });
     } catch (error) {
-      return {
+      res.json({
         error: true,
         message: error
-      }
+      })
     }
   }
 );
@@ -89,10 +90,10 @@ router.patch('/:id',
           content: category
         });
     } catch (error) {
-      return {
+      res.json({
         error: true,
         message: error
-      }
+      })
     }
   }
 );
@@ -108,12 +109,13 @@ router.delete('/:id',
       res.json({
         error: false,
         content: id
-       });
+      });
     } catch (error) {
-      return {
+      res.json({
         error: true,
         message: error
-      }    }
+      })
+    }
   }
 );
 

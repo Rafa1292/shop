@@ -18,10 +18,10 @@ router.get('/',
         content: accounts
       });
     } catch (error) {
-      return {
+      res.json({
         error: true,
         message: error
-      }
+      })
     }
   });
 
@@ -39,10 +39,10 @@ router.get('/:id',
           content: account
         });
     } catch (error) {
-      return {
+      res.json({
         error: true,
         message: error
-      }
+      })
     }
   }
 );
@@ -60,10 +60,10 @@ router.post('/',
         content: newAccount
       });
     } catch (error) {
-      return {
+      res.json({
         error: true,
         message: error
-      }
+      })
     }
   }
 );
@@ -84,10 +84,10 @@ router.patch('/:id',
           content: account
         });
     } catch (error) {
-      return {
+      res.json({
         error: true,
         message: error
-      }
+      })
     }
   }
 );

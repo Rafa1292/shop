@@ -18,10 +18,10 @@ router.get('/',
         content: paymethods
       });
     } catch (error) {
-      return {
+      res.json({
         error: true,
         message: error
-      }
+      })
     }
   }
 );
@@ -39,10 +39,10 @@ router.get('/:id',
         content: paymethod
       });
     } catch (error) {
-      return {
+      res.json({
         error: true,
         message: error
-      }
+      })
     }
   }
 );
@@ -60,10 +60,10 @@ router.post('/',
         content: newPaymethod
       });
     } catch (error) {
-      return {
+      res.json( {
         error: true,
         message: error
-      }
+      })
     }
   }
 );
@@ -83,10 +83,10 @@ router.patch('/:id',
         content: paymethod
       });
     } catch (error) {
-      return {
+      res.json({
         error: true,
         message: error
-      }
+      })
     }
   }
 );

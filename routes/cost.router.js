@@ -19,12 +19,13 @@ router.get('/',
         content: costs
       });
     } catch (error) {
-      return {
+      res.json({
         error: true,
         message: error
-      }
+      })
     }
-  });
+  }
+);
 
 
 router.post('/',
@@ -40,10 +41,10 @@ router.post('/',
         content: newCost
       });
     } catch (error) {
-      return {
+      res.json({
         error: true,
         message: error
-      }
+      })
     }
   }
 );

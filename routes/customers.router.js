@@ -16,12 +16,13 @@ router.get('/', async (req, res, next) => {
       content: customers
     });
   } catch (error) {
-    return {
+    res.json({
       error: true,
       message: error
-    }
+    })
   }
-});
+}
+);
 
 router.get('/withOrders/:id',
   passport.authenticate('jwt', { session: false }),
@@ -36,10 +37,10 @@ router.get('/withOrders/:id',
         content: customer
       });
     } catch (error) {
-      return {
+      res.json({
         error: true,
         message: error
-      }
+      })
     }
   }
 );
@@ -57,10 +58,10 @@ router.get('/:id',
         content: customer
       });
     } catch (error) {
-      return {
+      res.json({
         error: true,
         message: error
-      }
+      })
     }
   }
 );
@@ -78,10 +79,10 @@ router.post('/',
         content: newCustomer
       });
     } catch (error) {
-      return {
+      res.json({
         error: true,
         message: error
-      }
+      })
     }
   }
 );
@@ -101,10 +102,10 @@ router.patch('/:id',
         content: customer
       });
     } catch (error) {
-      return {
+      res.json({
         error: true,
         message: error
-      }
+      })
     }
   }
 );
@@ -122,10 +123,10 @@ router.delete('/:id',
         content: id
       });
     } catch (error) {
-      return {
+      res.json({
         error: true,
         message: error
-      }
+      })
     }
   }
 );

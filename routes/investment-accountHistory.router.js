@@ -21,10 +21,10 @@ router.post('/',
         content: newInvestmentAccountHistory
       });
     } catch (error) {
-      return {
+      res.json( {
         error: true,
         message: error
-      }
+      })
     }
   }
 );

@@ -18,12 +18,13 @@ router.get('/',
         content: colors
       });
     } catch (error) {
-      return {
+      res.json({
         error: true,
         message: error
-      }
+      })
     }
-  });
+  }
+);
 
 router.get('/:id',
   passport.authenticate('jwt', { session: false }),
@@ -38,10 +39,10 @@ router.get('/:id',
         content: color
       });
     } catch (error) {
-      return {
+      res.json({
         error: true,
         message: error
-      }
+      })
     }
   }
 );
@@ -59,10 +60,10 @@ router.post('/',
         content: newColor
       });
     } catch (error) {
-      return {
+      res.json({
         error: true,
         message: error
-      }
+      })
     }
   }
 );
@@ -82,10 +83,10 @@ router.patch('/:id',
         content: color
       });
     } catch (error) {
-      return {
+      res.json({
         error: true,
         message: error
-      }
+      })
     }
   }
 );
@@ -103,10 +104,10 @@ router.delete('/:id',
         content: id
       });
     } catch (error) {
-      return {
+      res.json({
         error: true,
         message: error
-      }
+      })
     }
   }
 );

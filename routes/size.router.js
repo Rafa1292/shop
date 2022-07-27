@@ -18,10 +18,10 @@ router.get('/',
         content: sizes
       });
     } catch (error) {
-      return {
+      res.json({
         error: true,
         message: error
-      }
+      })
     }
   }
 );
@@ -39,10 +39,10 @@ router.get('/:id',
         content: size
       });
     } catch (error) {
-      return {
+      res.json({
         error: true,
         message: error
-      }
+      })
     }
   }
 );
@@ -60,10 +60,10 @@ router.post('/',
         content: newSize
       });
     } catch (error) {
-      return {
+      res.json({
         error: true,
         message: error
-      }
+      })
     }
   }
 );
@@ -83,10 +83,10 @@ router.patch('/:id',
         content: size
       });
     } catch (error) {
-      return {
+      res.json({
         error: true,
         message: error
-      }
+      })
     }
   }
 );
@@ -104,10 +104,10 @@ router.delete('/:id',
         content: id
       });
     } catch (error) {
-      return {
+      res.json({
         error: true,
         message: error
-      }
+      })
     }
   }
 );

@@ -17,10 +17,10 @@ router.get('/',
         content: products
       });
     } catch (error) {
-      return {
+      res.json({
         error: true,
         message: error
-      }
+      })
     }
   }
 );
@@ -38,10 +38,10 @@ router.get('/:id',
         content: product
       });
     } catch (error) {
-      return {
+      res.json({
         error: true,
         message: error
-      }
+      })
     }
   }
 );
@@ -59,10 +59,10 @@ router.post('/',
         content: newProduct
       });
     } catch (error) {
-      return {
+      res.json({
         error: true,
         message: error
-      }
+      })
     }
   }
 );
@@ -82,10 +82,10 @@ router.patch('/:id',
         content: product
       });
     } catch (error) {
-      return {
+      res.json({
         error: true,
         message: error
-      }
+      })
     }
   }
 );
@@ -103,10 +103,10 @@ router.delete('/:id',
         content: id
       });
     } catch (error) {
-      return {
+      res.json({
         error: true,
         message: error
-      }
+      })
     }
   }
 );

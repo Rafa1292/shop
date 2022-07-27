@@ -19,12 +19,13 @@ router.get('/',
           content: brands
         });
     } catch (error) {
-      return {
+      res.json({
         error: true,
         message: error
-      }
+      })
     }
-  });
+  }
+);
 
 router.get('/:id',
   passport.authenticate('jwt', { session: false }),
@@ -40,10 +41,10 @@ router.get('/:id',
           content: brand
         });
     } catch (error) {
-      return {
+      res.json({
         error: true,
         message: error
-      }
+      })
     }
   }
 );
@@ -62,10 +63,10 @@ router.post('/',
           content: newBrand
         });
     } catch (error) {
-      return {
+      res.json({
         error: true,
         message: error
-      }
+      })
     }
   }
 );
@@ -86,10 +87,10 @@ router.patch('/:id',
           content: brand
         });
     } catch (error) {
-      return {
+      res.json({
         error: true,
         message: error
-      }
+      })
     }
   }
 );
@@ -107,10 +108,10 @@ router.delete('/:id',
         content: id
       });
     } catch (error) {
-      return {
+      res.json({
         error: true,
         message: error
-      }
+      })
     }
   }
 );

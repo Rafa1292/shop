@@ -23,21 +23,23 @@ router.post('/login',
         }
       });
     } catch (error) {
-      return {
+      res.json( {
         error: true,
         message: error
-      }
+      })
     }
   }
 );
 
-router.get("/login/success", (req, res) => {
-  res.status(200).json({
-    success: true,
-    message: 'succesfull',
-    user: req.user
-  })
-});
+router.get("/login/success",
+  (req, res) => {
+    res.status(200).json({
+      success: true,
+      message: 'succesfull',
+      user: req.user
+    })
+  }
+);
 
 router.get('/facebook',
   passport.authenticate('facebook', { scope: ['email'] }));
@@ -50,7 +52,8 @@ router.get('/facebook/callback',
   function (req, res) {
     res.cookie('token', req.user)
     res.redirect('http://localhost:8080/')
-  });
+  }
+);
 
 
 router.get('/google/callback',
@@ -59,6 +62,7 @@ router.get('/google/callback',
     console.log(req.user)
     res.cookie('token', req.user)
     res.redirect('http://localhost:8080/')
-  });
+  }
+);
 
 module.exports = router;

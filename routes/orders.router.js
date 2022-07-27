@@ -15,10 +15,10 @@ router.get('/',
         content: orders
       });
     } catch (error) {
-      return {
+      res.json({
         error: true,
         message: error
-      }
+      })
     }
   }
 );
@@ -34,10 +34,10 @@ router.get('/:id',
         content: order
       });
     } catch (error) {
-      return {
+      res.json({
         error: true,
         message: error
-      }
+      })
     }
   }
 );
@@ -53,10 +53,10 @@ router.get('/customer/:id',
         content: order
       });
     } catch (error) {
-      return {
+      res.json({
         error: true,
         message: error
-      }
+      })
     }
   }
 );
@@ -72,10 +72,10 @@ router.post('/',
         content: newOrder
       });
     } catch (error) {
-      return {
+      res.json({
         error: true,
         message: error
-      }
+      })
     }
   }
 );
@@ -92,10 +92,10 @@ router.patch('/:id',
         content: order
       });
     } catch (error) {
-      return {
+      res.json({
         error: true,
         message: error
-      }
+      })
     }
   }
 );
@@ -111,10 +111,10 @@ router.post('/add-item',
         content: order
       });
     } catch (error) {
-      return {
+      res.json({
         error: true,
         message: error
-      }
+      })
     }
   }
 );

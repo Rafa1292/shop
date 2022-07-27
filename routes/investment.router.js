@@ -19,10 +19,10 @@ router.get('/',
         content: investments
       });
     } catch (error) {
-      return {
+      res.json({
         error: true,
         message: error
-      }
+      })
     }
   }
 );
@@ -40,10 +40,10 @@ router.post('/',
         content: newInvestment
       });
     } catch (error) {
-      return {
+      res.json({
         error: true,
         message: error
-      }
+      })
     }
   }
 );
@@ -60,10 +60,10 @@ router.get('/:id',
         content: investment
       });
     } catch (error) {
-      return {
+      res.json({
         error: true,
         message: error
-      }
+      })
     }
   }
 );

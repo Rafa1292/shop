@@ -19,12 +19,13 @@ router.get('/',
         content: entries
       });
     } catch (error) {
-      return {
+      res.json({
         error: true,
         message: error
-      }
+      })
     }
-  });
+  }
+);
 
 
 router.post('/',
@@ -37,10 +38,10 @@ router.post('/',
         content: newEntry
       });
     } catch (error) {
-      return {
+      res.json({
         error: true,
         message: error
-      }
+      })
     }
   }
 );

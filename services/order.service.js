@@ -13,9 +13,12 @@ class OrderService {
 
   async create(data) {
     const response = await customerService.customerCanOrder(data.customerId);
+    console.log('----------customer can order')
+    console.log(response)
     if (!response) {
-      throw boom.conflict("Has alcanzado el maximo de ordenes abiertas");
+      throw "Has alcanzado el maximo de ordenes permitidas";
     }
+
     for (let index = 0; index < data.items.length; index++) {
       const productMove = await models.ProductMove.create(
         data.items[index].productMove
