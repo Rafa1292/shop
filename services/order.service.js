@@ -107,6 +107,7 @@ class OrderService {
         customerId: customerId
       }
     });
+    console.log(rta)
     return rta;
   }
 
