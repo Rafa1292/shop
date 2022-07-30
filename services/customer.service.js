@@ -45,7 +45,7 @@ class CustomerService {
             {
               association: 'payments',
               include: ['paymentAccountHistory']
-            }
+            }, 'state'
           ],
           where: {
             close: false,

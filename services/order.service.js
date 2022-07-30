@@ -13,8 +13,6 @@ class OrderService {
 
   async create(data) {
     const response = await customerService.customerCanOrder(data.customerId);
-    console.log('----------customer can order')
-    console.log(response)
     if (!response) {
       throw "Has alcanzado el maximo de ordenes permitidas";
     }
@@ -102,6 +100,7 @@ class OrderService {
             }
           ]
         },
+        'state'
       ],
       where: {
         customerId: customerId
@@ -153,6 +152,14 @@ class OrderService {
 
       if (changes.delivered)
         await this.updateProductMoves(id);
+
+      if (changes.stateId == 1) {
+        changes = {
+          ...changes,
+          close: true,
+
+        }
+      }
 
       const order = await this.findOne(id);
       const rta = await order.update(changes);

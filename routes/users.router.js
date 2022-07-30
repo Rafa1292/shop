@@ -37,7 +37,8 @@ router.get('/get-role',
           role: user.role,
           sub: user.id,
           user: user.email,
-          customerId: user.customer ? user.customer.id : 0
+          customerId: user.customer ? user.customer.id : 0,
+          phone: user?.customer?.phone ? user?.customer?.phone : 0
         }
       });
     } catch (error) {
