@@ -11,28 +11,17 @@ class ProductsService {
     return newProduct;
   }
 
-  async find(query) {
+  async find() {
     const options = {
       include: [{
         association: 'subcategory',
         include: ['category']
       },
-       'brand'
+        'brand'
       ],
       where: {}
     }
-    const { limit, offset, price_min, price_max } = query;
-    if (limit && offset) {
-      options.limit = limit,
-        options.offset = offset
-    }
 
-    if (price_min && price_max) {
-      options.where.price = {
-        [Op.gte]: price_min,
-        [Op.lte]: price_max,
-      }
-    }
     const rta = await models.Product.findAll(options);
     return rta;
   }
