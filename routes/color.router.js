@@ -10,7 +10,7 @@ const service = new ColorService();
 
 router.get('/',
   passport.authenticate('jwt', { session: false }),
-  checkRoles('admin'), async (req, res, next) => {
+  async (req, res, next) => {
     try {
       const colors = await service.find();
       res.json({

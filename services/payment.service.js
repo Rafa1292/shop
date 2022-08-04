@@ -12,7 +12,7 @@ class PaymentService {
   constructor() {
   }
   async create(data) {
-    let transaction = await sequelize.transaction();
+
     const amount = data.paymentAccountHistory.accountHistory.amount;
     const paymethodId = data.paymentAccountHistory.accountHistory.paymethodId;
     try {
@@ -30,12 +30,9 @@ class PaymentService {
         accountHistoryId: accountHistory.id,
         amount: amount
       });
-
       await orderService.checkBalance(data.orderId);
-      await transaction.commit();
       return payment;
     } catch (error) {
-      await transaction.rollback();
       return error;
     }
   }

@@ -31,16 +31,16 @@ class OrderService {
   }
 
   async checkBalance(id) {
-    const reducer = (accumalator, currentValue) => accumalator + (currentValue.productMove.cost * currentValue.productMove.quantity);
+    const reducer = (accumalator, currentValue) => accumalator + (currentValue.price * currentValue.productMove.quantity);
     const historyReducer = (accumalator, currentValue) => accumalator + (currentValue.paymentAccountHistory.amount);
     let order = await this.findOne(id);
     const payments = order.payments.reduce(historyReducer, 0);
     const due = order.items.reduce(reducer, 0);
-    const diference = due - payments;
+    const diference = due - payments - order.firstPay;
     if (diference < 0) {
       throw boom.badData('El pago no puede ser mayor al saldo');
     }
-    if (payments == due) {
+    if (diference == 0) {
       this.update(id, { close: true });
     }
   }

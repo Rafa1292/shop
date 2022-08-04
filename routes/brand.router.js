@@ -10,7 +10,7 @@ const service = new BrandService();
 
 router.get('/',
   passport.authenticate('jwt', { session: false }),
-  checkRoles('admin'), async (req, res, next) => {
+  async (req, res, next) => {
     try {
       const brands = await service.find();
       res.json(

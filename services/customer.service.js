@@ -55,7 +55,9 @@ class CustomerService {
       ]
     });
     if (!customer) {
-      throw boom.notFound('user not found');
+      return {
+        orders: []
+      }
     }
     return customer;
   }
