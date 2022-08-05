@@ -9,7 +9,6 @@ const router = express.Router();
 const service = new BrandService();
 
 router.get('/',
-  passport.authenticate('jwt', { session: false }),
   async (req, res, next) => {
     try {
       const brands = await service.find();
