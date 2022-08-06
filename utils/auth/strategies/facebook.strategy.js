@@ -9,7 +9,7 @@ const {config} = require('../../../config/config')
 const FacebookStrategyAuth = new FacebookStrategy({
   clientID: '335432078671111',
   clientSecret: 'bebf15d5360ba22705520c5f139ce33e',
-  callbackURL: 'http://localhost:3000/api/v1/auth/facebook/callback',
+  callbackURL: 'https://limitless-hamlet-11683.herokuapp.com/api/v1/auth/facebook/callback',
   profileFields: ['id', 'displayName', 'emails', 'picture',],
 },
   async (accessToken, refreshToken, profile, done) => {
