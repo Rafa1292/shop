@@ -56,7 +56,7 @@ router.post('/recovery-password',
         console.log(tempToken)
         //mandar correo con direccion con parametro token
         const body = `Haga click en el enlace para recuperar su contraseña
-        http://localhost:8080/new-password/${tempToken}`;
+        https://desatados.shop/new-password/${tempToken}`;
 
         mailSender.sendEmail(req.body.email,
           "Recuperacion de contraseña", body)
@@ -124,20 +124,20 @@ router.get('/google',
   passport.authenticate('google', { scope: ['email'] }));
 
 router.get('/facebook/callback',
-  passport.authenticate('facebook', { failureRedirect: 'http://localhost:8080/login' }),
+  passport.authenticate('facebook', { failureRedirect: 'https://desatados.shop/login' }),
   function (req, res) {
     res.cookie('token', req.user)
-    res.redirect('http://localhost:8080/')
+    res.redirect('https://desatados.shop/')
   }
 );
 
 
 router.get('/google/callback',
-  passport.authenticate('google', { failureRedirect: 'http://localhost:8080/login', session: false }),
+  passport.authenticate('google', { failureRedirect: 'https://desatados.shop/login', session: false }),
   function (req, res) {
     console.log(req.user)
     res.cookie('token', req.user)
-    res.redirect('http://localhost:8080/')
+    res.redirect('https://desatados.shop/')
   }
 );
 

@@ -10,7 +10,7 @@ const userService = new UserService();
 const GoogleStrategyAuth = new GoogleStrategy({
   clientID: '896786655761-44p5urae0bvtm54ssv7tq2a5l0mekj7g.apps.googleusercontent.com',
   clientSecret: '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',
-  callbackURL: 'http://localhost:3000/api/v1/auth/google/callback',
+  callbackURL: 'https://limitless-hamlet-11683.herokuapp.com/api/v1/auth/google/callback',
   profileFields: ['id', 'displayName', 'emails', 'picture',],
 },
   async (accessToken, refreshToken, profile, done) => {
