@@ -149,14 +149,10 @@ router.get('/facebook/callback',
 router.get('/google/callback',
   passport.authenticate('google', { failureRedirect: 'https://desatados.shop/login', session: false }),
   function (req, res) {
-    console.log('-------------original token------------')
-    console.log(req.user)
     let tempToken = req.user.replace(".", "-");
     do {
       tempToken = tempToken.replace(".", "-");
     } while (tempToken.includes("."));
-    console.log('----------tempToken--------')
-    console.log(tempToken)
     res.redirect(`https://desatados.shop/${tempToken}`)
   }
 );
