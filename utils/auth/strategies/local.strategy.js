@@ -9,16 +9,16 @@ const LocalStrategy = new Strategy(async (email, password, done) => {
   try {
     const user = await userService.findByEmail(email);
     if(!user){
-      throw 'Usuario o contraseña incorrecto';
+      done(null, null);
     }
     const isMatch = await bcrypt.compare(password, user.password);
     if(!isMatch){
-      throw 'Usuario o contraseña incorrecto';
+      done(null, null);
     }
     delete user.dataValues.password;
     done(null, user);
   } catch (error) {
-    done(error, false);
+    done(null, null);
   }
 });
 

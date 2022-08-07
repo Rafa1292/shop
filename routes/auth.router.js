@@ -15,19 +15,28 @@ router.post('/login',
   passport.authenticate('local', { session: false }),
   async (req, res, next) => {
     try {
-      const user = req.user;
-      const payload = {
-        sub: user.id,
-        role: user.role
-      }
-      const token = jwt.sign(payload, config.jwtSecret);
-      res.json({
-        error: false,
-        content: {
-          user,
-          token
+      if (req.user) {
+
+        const user = req.user;
+        const payload = {
+          sub: user.id,
+          role: user.role
         }
-      });
+        const token = jwt.sign(payload, config.jwtSecret);
+        res.json({
+          error: false,
+          content: {
+            user,
+            token
+          }
+        });
+      }
+      else{
+        res.json({
+          error: true,
+          message: 'Usuario o contraseña incorrecto'
+        })
+      }
     } catch (error) {
       res.json({
         error: true,
@@ -83,9 +92,9 @@ router.post('/new-password',
       const user = await userService.findOne(header.payload.sub);
 
       if (user) {
-        const hash = await bcrypt.hash(req.body.password , 10);
+        const hash = await bcrypt.hash(req.body.password, 10);
 
-        await userService.update(header.payload.sub, { password: hash})
+        await userService.update(header.payload.sub, { password: hash })
         res.json({
           error: false,
           message: 'usuario actualizado'
@@ -117,7 +126,7 @@ router.get("/login/success",
 );
 
 router.get('/facebook',
-  passport.authenticate('facebook', { scope: ['email']}));
+  passport.authenticate('facebook', { scope: ['email'] }));
 
 router.get('/google',
   passport.authenticate('google', { scope: ['email'] }));
