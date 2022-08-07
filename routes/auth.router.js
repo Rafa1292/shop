@@ -127,7 +127,11 @@ router.get('/facebook/callback',
   passport.authenticate('facebook', { failureRedirect: 'https://desatados.shop/login', session: false }),
   function (req, res) {
     console.log(req.user)
-    res.cookie('token', req.user)
+    res.cookie('token', req.user, {
+      httpOnly: false,
+      secure: isSecure,
+      signed: true
+  })
     console.log(res.cookie)
     res.redirect('https://desatados.shop/')
   }
