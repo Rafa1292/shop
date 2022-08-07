@@ -8,8 +8,8 @@ const { config } = require('../../../config/config')
 const userService = new UserService();
 
 const GoogleStrategyAuth = new GoogleStrategy({
-  clientID: '896786655761-44p5urae0bvtm54ssv7tq2a5l0mekj7g.apps.googleusercontent.com',
-  clientSecret: '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',
+  clientID: '80463080256-gn7pp8ep5se7oaofasf7kk967umdl5q3.apps.googleusercontent.com',
+  clientSecret: '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',
   callbackURL: 'https://limitless-hamlet-11683.herokuapp.com/api/v1/auth/google/callback',
   profileFields: ['id', 'displayName', 'emails', 'picture',],
 },
