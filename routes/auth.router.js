@@ -125,8 +125,6 @@ router.get('/google',
 router.get('/facebook/callback',
   passport.authenticate('facebook', { failureRedirect: 'https://desatados.shop/login', session: false }),
   function (req, res) {
-    console.log('---------aqui token ----------------')
-    console.log(req.user)
     let tempToken = req.user.replace(".", "-");
     do {
       tempToken = tempToken.replace(".", "-");
