@@ -128,6 +128,7 @@ router.get('/facebook/callback',
   function (req, res) {
     console.log(req.user)
     res.cookie('token', req.user)
+    console.log(res.cookie)
     res.redirect('https://desatados.shop/')
   }
 );
