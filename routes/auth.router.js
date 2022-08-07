@@ -118,7 +118,7 @@ router.get("/login/success",
 );
 
 router.get('/facebook',
-  passport.authenticate('facebook', { scope: ['email'] }));
+  passport.authenticate('facebook', { scope: ['email'], session: false }));
 
 router.get('/google',
   passport.authenticate('google', { scope: ['email'] }));
