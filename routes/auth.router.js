@@ -118,13 +118,13 @@ router.get("/login/success",
 );
 
 router.get('/facebook',
-  passport.authenticate('facebook', { scope: ['email'], session: false }));
+  passport.authenticate('facebook', { scope: ['email']}));
 
 router.get('/google',
   passport.authenticate('google', { scope: ['email'] }));
 
 router.get('/facebook/callback',
-  passport.authenticate('facebook', { failureRedirect: 'https://desatados.shop/login' }),
+  passport.authenticate('facebook', { failureRedirect: 'https://desatados.shop/login', session: false }),
   function (req, res) {
     res.cookie('token', req.user)
     res.redirect('https://desatados.shop/')
