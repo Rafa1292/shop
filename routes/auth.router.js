@@ -15,14 +15,17 @@ router.post('/login',
   passport.authenticate('local', { session: false }),
   async (req, res, next) => {
     try {
+      console.log('entro a login')
       if (req.user) {
-
+        console.log('hay usuario')
+        console.log(req.user)
         const user = req.user;
         const payload = {
           sub: user.id,
           role: user.role
         }
         const token = jwt.sign(payload, config.jwtSecret);
+        console.log('enviar respuesta')
         res.json({
           error: false,
           content: {

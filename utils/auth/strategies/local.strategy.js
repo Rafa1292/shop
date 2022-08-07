@@ -7,17 +7,21 @@ const userService = new UserService();
 
 const LocalStrategy = new Strategy(async (email, password, done) => {
   try {
+    console.log('localstrategy')
     const user = await userService.findByEmail(email);
-    if(!user){
-      done(null, null);
+    if(user){
+      console.log('hay usuario')
+      const isMatch = await bcrypt.compare(password, user.password);
+      if(isMatch){
+        console.log('coincide')
+        delete user.dataValues.password;
+        done(null, user);
+      }
     }
-    const isMatch = await bcrypt.compare(password, user.password);
-    if(!isMatch){
-      done(null, null);
-    }
-    delete user.dataValues.password;
-    done(null, user);
+    console.log('bateando')
+    done(null, null);
   } catch (error) {
+    console.log('cagada')
     done(null, null);
   }
 });
