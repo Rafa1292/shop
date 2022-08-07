@@ -153,6 +153,8 @@ router.get('/google/callback',
     do {
       tempToken = tempToken.replace(".", "-");
     } while (tempToken.includes("."));
+    console.log('----------tempToken--------')
+    console.log(tempToken)
     res.redirect(`https://desatados.shop/${tempToken}`)
   }
 );
