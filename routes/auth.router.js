@@ -34,7 +34,7 @@ router.post('/login',
       else{
         res.json({
           error: true,
-          message: 'Usuario o contraseña incorrecto'
+          message: 'Usuario o contraseña incorrectos'
         })
       }
     } catch (error) {
