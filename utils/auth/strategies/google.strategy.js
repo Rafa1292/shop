@@ -14,9 +14,11 @@ const GoogleStrategyAuth = new GoogleStrategy({
   profileFields: ['id', 'displayName', 'emails', 'picture',],
 },
   async (accessToken, refreshToken, profile, done) => {
+    console.log('------entro a ggogle auth----------')
     console.log(profile)
     let user = await userService.findByEmail(profile._json.email);
     if (!user) {
+      console.log('------no user----------')
       user = await userService.create({
         email: profile._json.email,
         role: 'customer',
@@ -30,6 +32,7 @@ const GoogleStrategyAuth = new GoogleStrategy({
       });
     }
     else {
+      console.log('------user----------')
       if (user.googleId != profile.id.toString()) {
         await userService.update(user.id, { googleId: profile.id.toString() })
       }
