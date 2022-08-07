@@ -126,7 +126,7 @@ router.get('/google',
 router.get('/facebook/callback',
   passport.authenticate('facebook', { failureRedirect: 'https://desatados.shop/login', session: false }),
   function (req, res) {
-    console.log(req)
+    console.log(req.user)
     res.cookie('token', req.user)
     res.redirect('https://desatados.shop/')
   }
