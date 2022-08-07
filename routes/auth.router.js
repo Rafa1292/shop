@@ -16,7 +16,13 @@ router.post('/login',
   async (req, res, next) => {
     try {
       console.log('entro a login')
-      if (req.user) {
+      if (req.user.error) {
+        res.json({
+          error: true,
+          message: 'Usuario o contraseña incorrectos'
+        })
+      }
+      else{
         console.log('hay usuario')
         console.log(req.user)
         const user = req.user;
@@ -33,12 +39,6 @@ router.post('/login',
             token
           }
         });
-      }
-      else{
-        res.json({
-          error: true,
-          message: 'Usuario o contraseña incorrectos'
-        })
       }
     } catch (error) {
       res.json({
