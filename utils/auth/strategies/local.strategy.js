@@ -19,8 +19,7 @@ const LocalStrategy = new Strategy(async (email, password, done) => {
       }
     }
     console.log('bateando')
-    const error = true;
-    done(null, error);
+    done(null, {error: true});
   } catch (error) {
     console.log('cagada')
     done(null, null);
