@@ -118,6 +118,28 @@ router.post('/new-password',
   }
 );
 
+router.post('/delete-my-data',
+  async (req, res, next) => {
+    try {
+      const id = req.body.id;
+      const changes = {
+        facebookId: "deleted",
+        email: `mail${id}@mail.com`
+      }
+      userService.update(id, changes);
+      res.json({
+        error: false,
+        content: true
+      })
+    } catch (error) {
+      res.json({
+        error: true,
+        message: error
+      })
+    }
+  }
+);
+
 router.get("/login/success",
   (req, res) => {
     res.status(200).json({
