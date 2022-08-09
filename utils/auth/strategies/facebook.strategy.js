@@ -13,6 +13,8 @@ const FacebookStrategyAuth = new FacebookStrategy({
   profileFields: ['id', 'displayName', 'emails', 'picture',],
 },
   async (accessToken, refreshToken, profile, done) => {
+    console.log('-----perfil de noka')
+    console.log(profile)
     let user = await userService.findByEmail(profile._json.email);
     if (!user) {
       user = await userService.create({
