@@ -13,31 +13,33 @@ const FacebookStrategyAuth = new FacebookStrategy({
   profileFields: ['id', 'displayName', 'emails', 'picture',],
 },
   async (accessToken, refreshToken, profile, done) => {
-    console.log('-----perfil de noka')
-    console.log(profile)
-    let user = await userService.findByEmail(profile._json.email);
-    if (!user) {
-      user = await userService.create({
-        email: profile._json.email,
-        role: 'customer',
-        password: profile.id,
-        customer: {
-          name: profile.displayName,
-          phone: '00000000',
-          maxOrders: 1
-        }
-      });
+    if (profile._json.email) {
 
+      let user = await userService.findByEmail(profile._json.email);
+      if (!user) {
+        user = await userService.create({
+          email: profile._json.email,
+          role: 'customer',
+          password: profile.id,
+          customer: {
+            name: profile.displayName,
+            phone: '00000000',
+            maxOrders: 1
+          }
+        });
+
+      }
+      if(user.facebookId != profile.id.toString()){
+        await userService.update(user.id,{facebookId: profile.id.toString()})
+      }
+      const payload = {
+        sub: user.id,
+        role: user.role
+      }
+      const token = jwt.sign(payload, config.jwtSecret);
+      done(null, token);
     }
-    if(user.facebookId != profile.id.toString()){
-      await userService.update(user.id,{facebookId: profile.id.toString()})
-    }
-    const payload = {
-      sub: user.id,
-      role: user.role
-    }
-    const token = jwt.sign(payload, config.jwtSecret);
-    done(null, token);
+    done(null, {error: true});
   }
 );
 

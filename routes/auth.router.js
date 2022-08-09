@@ -15,16 +15,14 @@ router.post('/login',
   passport.authenticate('local', { session: false }),
   async (req, res, next) => {
     try {
-      console.log('entro a login')
       if (req.user.error) {
         res.json({
           error: true,
           message: 'Usuario o contraseña incorrectos'
         })
       }
-      else{
-        console.log('hay usuario')
-        console.log(req.user)
+      else {
+
         const user = req.user;
         const payload = {
           sub: user.id,
@@ -159,11 +157,26 @@ router.get('/google',
 router.get('/facebook/callback',
   passport.authenticate('facebook', { failureRedirect: 'https://desatados.shop/login', session: false }),
   function (req, res) {
-    let tempToken = req.user.replace(".", "-");
-    do {
-      tempToken = tempToken.replace(".", "-");
-    } while (tempToken.includes("."));
-    res.redirect(`https://desatados.shop/${tempToken}`)
+    try {
+      if (req.user.error) {
+        res.json({
+          error: true,
+          message: 'Facebook no ha proporcionado un correo valido'
+        })
+      }
+      else {
+        let tempToken = req.user.replace(".", "-");
+        do {
+          tempToken = tempToken.replace(".", "-");
+        } while (tempToken.includes("."));
+        res.redirect(`https://desatados.shop/${tempToken}`)
+      }
+    } catch (error) {
+      res.json({
+        error: true,
+        message: 'No hemos logrado conectar con facebook, intentalo de nuevo o utiliza alguna de las otras maneras de  autenticacion'
+      })
+    }
   }
 );
 
@@ -171,11 +184,19 @@ router.get('/facebook/callback',
 router.get('/google/callback',
   passport.authenticate('google', { failureRedirect: 'https://desatados.shop/login', session: false }),
   function (req, res) {
-    let tempToken = req.user.replace(".", "-");
-    do {
-      tempToken = tempToken.replace(".", "-");
-    } while (tempToken.includes("."));
-    res.redirect(`https://desatados.shop/${tempToken}`)
+    try {
+      let tempToken = req.user.replace(".", "-");
+      do {
+        tempToken = tempToken.replace(".", "-");
+      } while (tempToken.includes("."));
+      res.redirect(`https://desatados.shop/${tempToken}`)
+
+    } catch (error) {
+      res.json({
+        error: true,
+        message: 'No hemos logrado conectar con google, intentalo de nuevo o utiliza alguna de las otras maneras de  autenticacion'
+      })
+    }
   }
 );
 
