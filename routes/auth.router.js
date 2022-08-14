@@ -162,7 +162,8 @@ router.get('/facebook/callback',
         res.json({
           error: true,
           message: 'Facebook no ha proporcionado un correo valido'
-        })
+        });
+        res.redirect(`https://desatados.shop/`)
       }
       else {
         let tempToken = req.user.replace(".", "-");
