@@ -159,11 +159,11 @@ router.get('/facebook/callback',
   function (req, res) {
     try {
       if (req.user.error) {
+        res.redirect(`https://desatados.shop/`)
         res.json({
           error: true,
           message: 'Facebook no ha proporcionado un correo valido'
         });
-        res.redirect(`https://desatados.shop/`)
       }
       else {
         let tempToken = req.user.replace(".", "-");
