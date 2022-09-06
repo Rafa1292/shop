@@ -186,10 +186,14 @@ router.get('/google/callback',
   passport.authenticate('google', { failureRedirect: 'https://desatados.shop/login', session: false }),
   function (req, res) {
     try {
-      let tempToken = req.user.replace(".", "-");
+      let tempToken = req.user;
       do {
         tempToken = tempToken.replace(".", "-");
       } while (tempToken.includes("."));
+      console.log('------orig----')
+      console.log(req.user)
+      console.log('---replace------')
+      console.log(tempToken)
       res.redirect(`https://desatados.shop/${tempToken}`)
 
     } catch (error) {
