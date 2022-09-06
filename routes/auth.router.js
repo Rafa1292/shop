@@ -166,9 +166,9 @@ router.get('/facebook/callback',
         });
       }
       else {
-        let tempToken = req.user.replace(".", "-");
+        let tempToken = req.user.replace(".", "%");
         do {
-          tempToken = tempToken.replace(".", "-");
+          tempToken = tempToken.replace(".", "%");
         } while (tempToken.includes("."));
         res.redirect(`https://desatados.shop/${tempToken}`)
       }
@@ -188,7 +188,7 @@ router.get('/google/callback',
     try {
       let tempToken = req.user;
       do {
-        tempToken = tempToken.replace(".", "-");
+        tempToken = tempToken.replace(".", "%");
       } while (tempToken.includes("."));
       console.log('------orig----')
       console.log(req.user)
