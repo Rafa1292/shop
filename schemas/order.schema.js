@@ -14,7 +14,7 @@ const delivered = Joi.bool();
 const soldBy = Joi.string();
 
 const createOrderSchema = Joi.object({
-  pictureToSee: Joi.string(),
+  pictureToSee,
   customerId: customerId.required(),
   expiringDate: expiringDate.required(),
   credit: credit.required(),
